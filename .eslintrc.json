@@ -1,6 +1,5 @@
 {
   "extends": [
-    "airbnb",
     "plugin:react/recommended"
   ],
   "plugins": ["react"],
@@ -30,7 +29,7 @@
       "maxEOF": 1
     }],
     "eol-last": ["error", "always"],
-    "indent": ["error", 4],
+    "indent": ["error", "tab"],
     "no-param-reassign": ["warn"],
     "arrow-body-style": ["error", "as-needed"],
     "arrow-parens": ["warn", "as-needed", {
