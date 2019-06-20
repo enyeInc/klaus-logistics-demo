@@ -5,22 +5,24 @@ import PropTypes from 'prop-types';
 
 import Footer from './Footer';
 import Header from './Header';
-import { components } from '../../menu';
+import { components as menuComponents } from '../../menu';
+import { components as invoiceComponents } from '../../invoice';
 
-const { Menu } = components;
+const { Menu } = menuComponents;
+const { Invoice } = invoiceComponents;
 const { Content, Sider } = Layout;
 
 const App = () => (
 	<LocaleProvider locale={German}>
 		<Layout className='app-container'>
-			<Sider>
+			<Sider collapsible>
 				<div className="logo" />
 				<Menu />
 			</Sider>
 			<Layout>
 				<Header />
 				<Content className='app-content'>
-					{'Bill is a cat.'}
+					<Invoice />
 				</Content>
 				<Footer />
 			</Layout>
