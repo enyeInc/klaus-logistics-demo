@@ -1,20 +1,18 @@
 import { Button, Table, Tag } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
 	DEFAULT_DATA_FORMAT,
-	HIGH_LIGHTER_STYLE,
 	INVOICE_COLUMNS,
-	INVOICE_DATA,
 	STATUS_FITLERS
 } from '../constants';
 import { generateFakeData } from '../utils';
-const dataSource = generateFakeData();
 
 export default class Invoice extends React.Component {
 	state = {
+		dataSource: [],
 		filteredInfo: {},
 	}
 
@@ -50,10 +48,13 @@ export default class Invoice extends React.Component {
 							break;
 						}
 						case 'createdAt':
-						case 'dueDate': {
+						case 'dueDate':
 							content = moment(data).format(DEFAULT_DATA_FORMAT);
 							break;
-						}
+						case 'amount':
+						case 'balance':
+							content = `€ ${data}`;
+							break;
 						default:
 							content = data;
 					}
@@ -70,22 +71,29 @@ export default class Invoice extends React.Component {
 					} else {
 						return 0;
 					}
+					return value1 < value2;
 				},
 				width: '12%',
 			});
 		});
 	}
+
+	componentDidMount() {
+		this.setState({
+			dataSource: generateFakeData(20),
+		});
+	}
+
 	render() {
 		const columns = this.generateColumns();
-		console.log(columns, dataSource);
+		const { dataSource } = this.state;
+
 		return(
-			<Fragment>
-				<Table
-					columns={columns}
-					dataSource={dataSource}
-					onChange={this.handleChange}
-				/>
-			</Fragment>
+			<Table
+				columns={columns}
+				dataSource={dataSource}
+				onChange={this.handleChange}
+			/>
 		);
 	}
 }

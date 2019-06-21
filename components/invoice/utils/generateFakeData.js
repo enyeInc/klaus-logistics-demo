@@ -39,8 +39,8 @@ const generateDates = status => {
 };
 
 const generateAmountBalance = status => {
-	const amount = `€${faker.finance.amount()}`;
-	const balance = status === 'complete' ? `€0` : amount;
+	const amount = faker.finance.amount();
+	const balance = status === 'complete' ? 0 : amount;
 
 	return { amount, balance };
 };
