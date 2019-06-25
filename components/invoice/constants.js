@@ -45,3 +45,9 @@ export const STATUS_FITLERS = [
 	{ text: 'Pending', value: 'Pending' },
 	{ text: 'Late', value: 'Late' },
 ];
+
+export const FILTER_OPTIONS = {
+	client: 'Client',
+	createdAt: 'Created Date',
+	dueDate: 'Due Date',
+};
