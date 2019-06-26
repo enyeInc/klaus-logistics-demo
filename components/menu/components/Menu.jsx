@@ -1,12 +1,15 @@
-import { Icon, Menu } from 'antd';
+import Link from 'next/link';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Icon, Menu } from 'antd';
 
 import { MENU_ITEMS, SETTINGS } from '../constants.js';
 
 const { Item } = Menu;
 const { DEFAULT_SELECTED_KEYS, MODE, THEME } = SETTINGS;
 
+// TODO: set select based of od location data
+// TODO: pick prop icons 
 const AppMenu = () => (
 	<Menu
 		defaultSelectedKeys={DEFAULT_SELECTED_KEYS}
@@ -15,12 +18,16 @@ const AppMenu = () => (
 	>
 		{
 			MENU_ITEMS.map(item => {
-				const { iconType, key, text } = item;
+				const { href, iconType, key, text } = item;
 
 				return (
 					<Item key={key}>
-						<Icon type={iconType} />
-						<span>{text}</span>
+						<Link href={href}>
+							<a>
+								<Icon type={iconType} />
+								<span>{text}</span>
+							</a>
+						</Link>
 					</Item>
 				);
 			})
