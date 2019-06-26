@@ -1,18 +1,18 @@
-import { Button, DatePicker, Input, Popover, Select, Table, Tag } from 'antd';
+import { Table, Tag } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import FilterInput from './FilterInput';
+import { generateFakeData } from '../utils';
 import {
 	DEFAULT_DATA_FORMAT,
-	FILTER_OPTIONS,
 	INVOICE_COLUMNS,
-	STATUS_FITLERS
+	STATUS_FITLERS,
+	SETTINGS
 } from '../constants';
-import { generateFakeData } from '../utils';
 
-const { RangePicker } = DatePicker;
-const { Option } = Select;
+const { COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
 export default class Invoice extends React.Component {
 	state = {
@@ -24,11 +24,8 @@ export default class Invoice extends React.Component {
 		isFitering: false,
 	}
 
-	handleChange = (pagination, filters, sorter) => {
-		this.setState({
-			filteredInfo: filters,
-			sortedInfo: sorter,
-		});
+	handleChange = (pagination, filteredInfo, sortedInfo) => {
+		this.setState({ filteredInfo, sortedInfo });
 	};
 
 	getFilterColumn = filterColumn => {
@@ -119,15 +116,13 @@ export default class Invoice extends React.Component {
 					}
 					return value1 < value2;
 				},
-				width: '12%',
+				width: COLUMN_DEFAULT_WIDTH,
 			});
 		});
 	}
 
 	componentDidMount() {
-		this.setState({
-			dataSource: generateFakeData(20),
-		});
+		this.setState({ dataSource: generateFakeData(20) });
 	}
 
 	render() {
@@ -143,50 +138,14 @@ export default class Invoice extends React.Component {
 
 		return(
 			<div className='invoice-container'>
-				<div className='filter-container'>
-					<Select onChange={this.getFilterColumn} value={filterColumn}>
-						{
-							Object.entries(FILTER_OPTIONS).map(option => {
-								const [value, text] = option;
-
-								return (
-									<Option
-										key={value}
-										value={value}
-									>
-										{text}
-									</Option>
-								);
-							})
-						}
-					</Select>
-					{
-						['createdAt', 'dueDate'].includes(filterColumn) ?
-							<RangePicker
-								allowClear={false}
-								showTime={{ format: 'HH:mm' }}
-								format="YYYY-MM-DD HH:mm"
-								placeholder={['Start Time', 'End Time']}
-								onOk={this.onDataSourceFilter}
-							/> :
-							<Input
-								onChange={this.onDataSourceFilter}
-								placeholder={`Filter ${FILTER_OPTIONS[filterColumn]}`}
-								value={filterValue}
-							></Input>
-					}
-					{
-						isFitering && (
-							<Popover content='Reset Filters'>
-								<Button
-									icon='close'
-									onClick={this.resetFilters}
-									shape='circle' size='small'
-								/>
-							</Popover>
-						)
-					}
-				</div>
+				<FilterInput
+					filterColumn={filterColumn}
+					filterValue={filterValue}
+					getFilterColumn={this.getFilterColumn}
+					isFitering={isFitering}
+					onDataSourceFilter={this.onDataSourceFilter}
+					resetFilters={this.resetFilters}
+				/>
 				<Table
 					columns={columns}
 					dataSource={source}

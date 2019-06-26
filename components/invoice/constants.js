@@ -51,3 +51,7 @@ export const FILTER_OPTIONS = {
 	createdAt: 'Created Date',
 	dueDate: 'Due Date',
 };
+
+export const SETTINGS = {
+	COLUMN_DEFAULT_WIDTH: '12%',
+};
