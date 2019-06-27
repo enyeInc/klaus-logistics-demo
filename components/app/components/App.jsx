@@ -17,7 +17,7 @@ const App = props => (
 		<Layout className='app-container'>
 			<Sider collapsible>
 				<div className="logo" />
-				<Menu />
+				<Menu router={props.router} />
 			</Sider>
 			<Layout>
 				<Header />
@@ -35,7 +35,8 @@ App.defaultProps = {
 };
 
 App.propTypes = {
-	children: PropTypes.nodes,
+	children: PropTypes.node,
+	router: PropTypes.object,
 };
 
 export default App;

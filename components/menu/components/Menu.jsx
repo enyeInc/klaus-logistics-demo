@@ -8,31 +8,38 @@ import { MENU_ITEMS, SETTINGS } from '../constants.js';
 const { Item } = Menu;
 const { DEFAULT_SELECTED_KEYS, MODE, THEME } = SETTINGS;
 
-// TODO: set select based of od location data
-// TODO: pick prop icons 
-const AppMenu = () => (
-	<Menu
-		defaultSelectedKeys={DEFAULT_SELECTED_KEYS}
-		mode={MODE}
-		theme={THEME}
-	>
-		{
-			MENU_ITEMS.map(item => {
-				const { href, iconType, key, text } = item;
+const AppMenu = props => {
+	const { pathname } = props.router;
+	const selectedKeys = pathname === '/' ? DEFAULT_SELECTED_KEYS : [pathname];
 
-				return (
-					<Item key={key}>
-						<Link href={href}>
-							<a>
-								<Icon type={iconType} />
-								<span>{text}</span>
-							</a>
-						</Link>
-					</Item>
-				);
-			})
-		}
-	</Menu>
-);
+	return (
+		<Menu
+			selectedKeys={selectedKeys}
+			mode={MODE}
+			theme={THEME}
+		>
+			{
+				MENU_ITEMS.map(item => {
+					const { href, iconType, text } = item;
+
+					return (
+						<Item key={href}>
+							<Link href={href}>
+								<a>
+									<Icon type={iconType} />
+									<span>{text}</span>
+								</a>
+							</Link>
+						</Item>
+					);
+				})
+			}
+		</Menu>
+	);
+};
+
+AppMenu.propTypes = {
+	router: PropTypes.object,
+};
 
 export default AppMenu;

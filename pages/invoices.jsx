@@ -1,15 +1,5 @@
-import React from 'react';
+import { components } from '../components/invoice';
 
-import { components as appComponents } from '../components/app';
-import { components as invoiceComponents } from '../components/invoice';
+const { Invoice } = components;
 
-const { App } = appComponents;
-const { Invoice } = invoiceComponents;
-
-const InvoiceAppWrapper = props => (
-	<App>
-		<Invoice />
-	</App>
-);
-
-export default InvoiceAppWrapper;
+export default Invoice;

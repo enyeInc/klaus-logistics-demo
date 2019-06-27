@@ -1,26 +1,26 @@
 export const MENU_ITEMS = [
 	{
-		href: '/clients',
-		iconType: 'user',
-		key: '1',
-		text: 'Clients',
-	},
-	{
 		href: '/invoices',
-		iconType: 'pie-chart',
+		iconType: 'book',
 		key: '2',
 		text: 'Invoices',
 	},
 	{
+		href: '/clients',
+		iconType: 'team',
+		key: '1',
+		text: 'Clients',
+	},
+	{
 		href: '/orders',
-		iconType: 'desktop',
+		iconType: 'inbox',
 		key: '3',
 		text: 'Orders',
 	},
 ];
 
 export const SETTINGS = {
-	DEFAULT_SELECTED_KEYS: ['1'],
+	DEFAULT_SELECTED_KEYS: ['/invoices'],
 	MODE: 'inline',
 	THEME: 'dark',
 };

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import FilterInput from './FilterInput';
-import { generateFakeData } from '../utils';
+
 import {
 	DEFAULT_DATA_FORMAT,
 	INVOICE_COLUMNS,
@@ -16,13 +16,14 @@ const { COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
 export default class Invoice extends React.Component {
 	state = {
-		dataSource: [],
 		filterColumn: 'client',
 		filterValue: '',
 		filteredDataSource: [],
 		filteredInfo: {},
 		isFitering: false,
 	}
+
+	columns = this.generateColumns();
 
 	handleChange = (pagination, filteredInfo, sortedInfo) => {
 		this.setState({ filteredInfo, sortedInfo });
@@ -42,7 +43,8 @@ export default class Invoice extends React.Component {
 	}
 
 	onDataSourceFilter = event => {
-		const { dataSource, filterColumn: column } = this.state;
+		const { invoiceData } = this.props;
+		const { filterColumn: column } = this.state;
 		let filterValue;
 		let isFitering = true;
 
@@ -52,7 +54,7 @@ export default class Invoice extends React.Component {
 			filterValue = newfilterValue;
 		}
 
-		const filteredDataSource = dataSource.filter(data => {
+		const filteredDataSource = invoiceData.filter(data => {
 			const value = data[column];
 
 			if (['createdAt', 'dueDate'].includes(column)) {
@@ -121,20 +123,10 @@ export default class Invoice extends React.Component {
 		});
 	}
 
-	componentDidMount() {
-		this.setState({ dataSource: generateFakeData(20) });
-	}
-
 	render() {
-		const columns = this.generateColumns();
-		const {
-			dataSource,
-			filterColumn,
-			filterValue,
-			filteredDataSource,
-			isFitering,
-		} = this.state;
-		const source = isFitering ? filteredDataSource : dataSource;
+		const { invoiceData } = this.props;
+		const { filterColumn, filterValue, filteredDataSource, isFitering } = this.state;
+		const source = isFitering ? filteredDataSource : invoiceData;
 
 		return(
 			<div className='invoice-container'>
@@ -147,7 +139,7 @@ export default class Invoice extends React.Component {
 					resetFilters={this.resetFilters}
 				/>
 				<Table
-					columns={columns}
+					columns={this.columns}
 					dataSource={source}
 					onChange={this.handleChange}
 				/>
@@ -155,3 +147,7 @@ export default class Invoice extends React.Component {
 		);
 	}
 }
+
+Invoice.propTypes = {
+	invoiceData: PropTypes.array,
+};
