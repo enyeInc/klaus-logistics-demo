@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 import Footer from './Footer';
 import Header from './Header';
+import invoice from '../../invoice';
 import { components as menuComponents } from '../../menu';
-import { components as invoiceComponents } from '../../invoice';
 
 const { Menu } = menuComponents;
-const { Invoice } = invoiceComponents;
+const { Invoice } = invoice.components;
 const { Content, Sider } = Layout;
 
 const AppLayout = props => (

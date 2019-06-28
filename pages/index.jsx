@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import React from 'react';
 
-import { components } from '../components/invoice';
+import invoice from '../components/invoice';
 
-const { Invoice } = components;
+const { Invoice } = invoice.components;
 
 const Index = props => (
 	<React.Fragment>

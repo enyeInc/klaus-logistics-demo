@@ -1,5 +1,5 @@
-import { components } from '../components/invoice';
+import invoice from '../components/invoice';
 
-const { Invoice } = components;
+const { Invoice } = invoice.components;
 
 export default Invoice;

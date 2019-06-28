@@ -1,11 +1,15 @@
-import { Table, Tag } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Table, Tag } from 'antd';
+import { connect } from 'react-redux';
 
 import FilterInput from './FilterInput';
+import { requestInvoiceData } from '../actions';
+import { invoiceDataSelector } from '../selectors';
 
 import {
+	COMPONENT_NAME,
 	DEFAULT_DATA_FORMAT,
 	INVOICE_COLUMNS,
 	STATUS_FITLERS,
@@ -14,7 +18,19 @@ import {
 
 const { COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
-export default class Invoice extends React.Component {
+class Invoice extends React.Component {
+	static async getInitialProps ({ Component, ctx }) {
+		const initialStore = ctx.store.getState();
+
+		if (!initialStore[COMPONENT_NAME].invoiceData) {
+			console.log('THERE IS NO INVOICE DATA', requestInvoiceData());
+			// dispatch action to request invoice data
+			ctx.store.dispatch(requestInvoiceData());
+		}
+
+		return null;
+	}
+
 	state = {
 		filterColumn: 'client',
 		filterValue: '',
@@ -151,3 +167,15 @@ export default class Invoice extends React.Component {
 Invoice.propTypes = {
 	invoiceData: PropTypes.array,
 };
+
+const mapStateToProps = state => {
+	console.log(state);
+
+	return ({
+		invoiceData: invoiceDataSelector(state),
+	});
+}
+
+const mapDispatchToProps = { requestInvoiceData };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Invoice);
