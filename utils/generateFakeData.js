@@ -58,7 +58,7 @@ const generateFakeStatuses = (numberOfStatus = 10) => {
 
 export default (fakeDataCount = 10) => {
 	const fakeStatuses = generateFakeStatuses(fakeDataCount);
-	console.log(fakeDataCount)
+
 	return fakeStatuses.map(status => ({
 		...generateDates(status),
 		...generateAmountBalance(status),

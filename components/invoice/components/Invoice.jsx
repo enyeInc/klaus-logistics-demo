@@ -25,7 +25,7 @@ class Invoice extends React.Component {
 		if (!initialStore[COMPONENT_NAME].invoiceData) {
 			console.log('THERE IS NO INVOICE DATA', requestInvoiceData());
 			// dispatch action to request invoice data
-			ctx.store.dispatch(requestInvoiceData());
+			await ctx.store.dispatch(requestInvoiceData());
 		}
 
 		return null;

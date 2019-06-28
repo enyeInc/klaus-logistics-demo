@@ -14,7 +14,7 @@ function* getInvoiceData() {
 	try {
 		const invoiceData = yield generateFakeData(12);
 		yield put(updateInvoiceData({ invoiceData }));
-	} catch(error){
+	} catch(error) {
 	    console.log(error);
 	}
 }
@@ -28,7 +28,7 @@ function* getInvoiceData() {
 function* watchGetInvoiceData() {
 	try {
 	    yield effects.takeLatest(REQUEST_INVOICE_DATA, getInvoiceData);
-	} catch(error){
+	} catch(error) {
 	    console.log(error);
 	}
 }
