@@ -129,10 +129,7 @@ class Invoice extends React.Component {
 	componentDidMount() {
 		const { invoiceData, requestInvoiceData } = this.props;
 
-		if (!invoiceData) {
-			requestInvoiceData();
-		}
-
+		!invoiceData && requestInvoiceData();;
 	}
 
 	render() {
@@ -165,11 +162,9 @@ Invoice.propTypes = {
 	requestInvoiceData: PropTypes.func,
 };
 
-const mapStateToProps = state => {
-	return ({
-		invoiceData: invoiceDataSelector(state),
-	});
-}
+const mapStateToProps = state => ({
+	invoiceData: invoiceDataSelector(state),
+});
 
 const mapDispatchToProps = { requestInvoiceData };
 
