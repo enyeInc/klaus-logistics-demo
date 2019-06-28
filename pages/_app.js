@@ -1,31 +1,25 @@
 import App, { Container } from 'next/app';
 import React from 'react';
+import { Provider } from 'react-redux';
 
 import { components } from '../components/app';
-import { generateFakeData } from '../utils';
-const { App: AppLayout } = components;
 
-export default class MyApp extends App {
-	static async getInitialProps({ Component, ctx }){
-		let pageProps = {};
+const { AppLayout, AppWithRedux } = components;
 
-		if (Component.getInitialProps){
-			pageProps = await Component.getInitialProps(ctx);
-		}
-
-		return {
-			...pageProps,
-			invoiceData: generateFakeData(12),
-		};
-	}
-
+class MyApp extends App {
 	render() {
-		const { Component, router, ...pageProps } = this.props;
+		const { Component, router, reduxStore, ...pageProps } = this.props;
 
 		return (
-			<AppLayout router={router}>
-				<Component {...pageProps} />
-			</AppLayout>
+			<Container>
+			  	<Provider store={reduxStore}>
+					<AppLayout router={router}>
+						<Component {...pageProps} />
+					</AppLayout>
+			  	</Provider>
+			</Container>
 		);
 	}
 };
+
+export default AppWithRedux(MyApp);

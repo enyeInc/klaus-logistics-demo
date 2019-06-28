@@ -1,27 +1,21 @@
 import Head from 'next/head';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-const Index = props => {
-	const childrenWithExtraProp = React.Children.map(
-		props.children,
-		child => React.cloneElement(child, props)
-	);
+import { components } from '../components/invoice';
 
-	return (
-		<React.Fragment>
-			<Head>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			</Head>
-			<body>
-				{childrenWithExtraProp}
-			</body>
-		</React.Fragment>
-	);
-};
+const { Invoice } = components;
 
-Index.propTypes = {
-	children: PropTypes.node,
-};
+const Index = props => (
+	<React.Fragment>
+		<Head>
+			<meta
+				content="width=device-width, initial-scale=1.0"
+				key="viewport"
+				name="viewport"
+			/>
+		</Head>
+		<Invoice {...props} />
+	</React.Fragment>
+);
 
 export default Index;

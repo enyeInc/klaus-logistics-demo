@@ -1,3 +1,4 @@
-import App from './App';
+import AppLayout from './AppLayout';
+import AppWithRedux from './AppWithRedux';
 
-export { App };
+export { AppLayout, AppWithRedux };

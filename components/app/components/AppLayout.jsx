@@ -12,7 +12,7 @@ const { Menu } = menuComponents;
 const { Invoice } = invoiceComponents;
 const { Content, Sider } = Layout;
 
-const App = props => (
+const AppLayout = props => (
 	<LocaleProvider locale={German}>
 		<Layout className='app-container'>
 			<Sider collapsible>
@@ -30,13 +30,13 @@ const App = props => (
 	</LocaleProvider>
 );
 
-App.defaultProps = {
+AppLayout.defaultProps = {
 	children: <Invoice />,
 };
 
-App.propTypes = {
+AppLayout.propTypes = {
 	children: PropTypes.node,
 	router: PropTypes.object,
 };
 
-export default App;
+export default AppLayout;
