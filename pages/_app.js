@@ -15,7 +15,7 @@ export default class MyApp extends App {
 
 		return {
 			...pageProps,
-			invoiceData: generateFakeData(),
+			invoiceData: generateFakeData(12),
 		};
 	}
 

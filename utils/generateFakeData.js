@@ -58,13 +58,16 @@ const generateFakeStatuses = (numberOfStatus = 10) => {
 
 export default (fakeDataCount = 10) => {
 	const fakeStatuses = generateFakeStatuses(fakeDataCount);
-
+	console.log(faker)
 	return fakeStatuses.map(status => ({
 		...generateDates(status),
 		...generateAmountBalance(status),
 		client: faker.company.companyName(),
 		createdBy: faker.name.findName(),
+		description: faker.lorem.paragraph(),
+		image: faker.image.image(),
 		key: uuid(),
+		slogan: faker.company.bs(),
 		status: getStatus(status),
 	}));
 };
