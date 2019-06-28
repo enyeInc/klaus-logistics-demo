@@ -19,18 +19,6 @@ import {
 const { COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
 class Invoice extends React.Component {
-	static async getInitialProps ({ Component, ctx }) {
-		const initialStore = ctx.store.getState();
-
-		if (!initialStore[COMPONENT_NAME].invoiceData) {
-			console.log('THERE IS NO INVOICE DATA', requestInvoiceData());
-			// dispatch action to request invoice data
-			await ctx.store.dispatch(requestInvoiceData());
-		}
-
-		return null;
-	}
-
 	state = {
 		filterColumn: 'client',
 		filterValue: '',
@@ -138,6 +126,14 @@ class Invoice extends React.Component {
 			});
 		});
 	}
+	componentDidMount() {
+		const { invoiceData, requestInvoiceData } = this.props;
+
+		if (!invoiceData) {
+			requestInvoiceData();
+		}
+
+	}
 
 	render() {
 		const { invoiceData } = this.props;
@@ -166,11 +162,10 @@ class Invoice extends React.Component {
 
 Invoice.propTypes = {
 	invoiceData: PropTypes.array,
+	requestInvoiceData: PropTypes.func,
 };
 
 const mapStateToProps = state => {
-	console.log(state);
-
 	return ({
 		invoiceData: invoiceDataSelector(state),
 	});

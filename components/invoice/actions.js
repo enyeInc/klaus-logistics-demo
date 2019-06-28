@@ -1,4 +1,4 @@
-import { REQUEST_INVOICE_DATA } from './actionTypes';
+import { REQUEST_INVOICE_DATA, UPDATE_INVOICE_DATA } from './actionTypes';
 
 /**
  * Triggers request for invoice data.

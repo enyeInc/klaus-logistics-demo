@@ -1,4 +1,4 @@
-import { all, put } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 
 import { updateInvoiceData } from './actions';
 import { generateFakeData } from '../../utils';
@@ -10,7 +10,6 @@ import { REQUEST_INVOICE_DATA } from './actionTypes';
  * @return {void} - void
  */
 function* getInvoiceData() {
-	console.log('WE ARE IN THIS SAGA');
 	try {
 		const invoiceData = yield generateFakeData(12);
 		yield put(updateInvoiceData({ invoiceData }));
@@ -27,7 +26,7 @@ function* getInvoiceData() {
  */
 function* watchGetInvoiceData() {
 	try {
-	    yield effects.takeLatest(REQUEST_INVOICE_DATA, getInvoiceData);
+	    yield takeLatest(REQUEST_INVOICE_DATA, getInvoiceData);
 	} catch(error) {
 	    console.log(error);
 	}
