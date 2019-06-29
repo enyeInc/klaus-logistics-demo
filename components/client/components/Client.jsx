@@ -1,79 +1,45 @@
-import Link from 'next/link';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Button, Icon, List } from 'antd';
-import { connect } from 'react-redux';
+import { Avatar, Button, Modal } from 'antd';
 
-import { getClientDetailsSelector } from '../selectors';
+import ClientList from './ClientList';
+import ClientModal from './ClientModal';
+import { ADD_CLIENT_TEXT } from '../constants';
 
-const IconText = ({ type, text }) => (
-	<span>
-		<Icon type={type} />
-		{text}
-	</span>
-);
+export default class Client extends React.Component {
+	state = {
+		isModalOpen: false,
+	};
 
-class Client extends React.Component {
+	toggleModal = () => {
+		const { isModalOpen } = this.state;
+
+		this.setState({ isModalOpen: !isModalOpen });
+	}
+
 	render() {
 		const { clientData } = this.props;
-
+		const { isModalOpen } = this.state;
+		
 		return (
 			<div className='client-container'>
 				<Button
 					icon='user-add'
-					onClick={() => {}}
+					onClick={this.toggleModal}
 					type='primary'
 				>
-					{'Add New Client'}
+					{ADD_CLIENT_TEXT}
 				</Button>
-				<List
-					bordered
-					itemLayout="vertical"
-					pagination={{ pageSize: 10 }}
-					dataSource={clientData}
-					renderItem={item => (
-						<List.Item
-							key={item.client}
-							actions={[
-								<IconText key="star-o" type="star-o" text="156" />,
-								<IconText key="like-o" type="like-o" text="156" />,
-								<IconText key="message" type="message" text="2" />,
-							]}
-							extra={
-								<img
-									width={272}
-									alt="logo"
-									src={item.image}
-								/>
-							}
-						>
-							<List.Item.Meta
-								avatar={<Avatar src={item.image} />}
-								title={<a href={item.href}>{item.client}</a>}
-								description={item.slogan}
-							/>
-							<div className='client-description'>
-								{item.description}
-							</div>
-						</List.Item>
-					)}
+				<ClientList />
+				<ClientModal
+					isVisible={isModalOpen}
+					toggleModal={this.toggleModal}
 				/>
 			</div>
 		);
 	}
 }
 
-IconText.propTypes = {
-	text: PropTypes.string,
-	type: PropTypes.string,
-};
-
 Client.propTypes = {
 	clientData: PropTypes.array,
 };
-
-const mapStateToProps = state => ({
-	clientData: getClientDetailsSelector(state),
-});
-
-export default connect(mapStateToProps)(Client);
