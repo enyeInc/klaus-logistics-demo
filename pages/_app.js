@@ -5,9 +5,11 @@ import withReduxSaga from 'next-redux-saga';
 import { Provider } from 'react-redux';
 
 import { configureStore } from '../store';
-import { components } from '../components/app';
+import { components as appComponents } from '../components/app';
+import invoice from '../components/invoice';
 
-const { AppLayout } = components;
+const { AppLayout } = appComponents;
+const { requestInvoiceData } = invoice.actions;
 
 class MyApp extends App {
 	static async getInitialProps ({ Component, ctx }) {
@@ -15,6 +17,12 @@ class MyApp extends App {
 
 		if (Component.getInitialProps) {
 			pageProps = await Component.getInitialProps({ ctx });
+		}
+
+		const state = ctx.store.getState();
+
+		if (!state.invoice.invoiceData) {
+			await ctx.store.dispatch(requestInvoiceData());
 		}
 
 		return { pageProps };

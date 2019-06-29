@@ -5,7 +5,6 @@ import { Table, Tag } from 'antd';
 import { connect } from 'react-redux';
 
 import FilterInput from './FilterInput';
-import { requestInvoiceData } from '../actions';
 import { invoiceDataSelector } from '../selectors';
 
 import {
@@ -126,11 +125,6 @@ class Invoice extends React.Component {
 			});
 		});
 	}
-	componentDidMount() {
-		const { invoiceData, requestInvoiceData } = this.props;
-
-		!invoiceData && requestInvoiceData();;
-	}
 
 	render() {
 		const { invoiceData } = this.props;
@@ -159,13 +153,10 @@ class Invoice extends React.Component {
 
 Invoice.propTypes = {
 	invoiceData: PropTypes.array,
-	requestInvoiceData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
 	invoiceData: invoiceDataSelector(state),
 });
 
-const mapDispatchToProps = { requestInvoiceData };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Invoice);
+export default connect(mapStateToProps)(Invoice);

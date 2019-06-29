@@ -2,6 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Button, Icon, List } from 'antd';
+import { connect } from 'react-redux';
+
+import { getClientDetailsSelector } from '../selectors';
 
 const IconText = ({ type, text }) => (
 	<span>
@@ -10,7 +13,7 @@ const IconText = ({ type, text }) => (
 	</span>
 );
 
-export default class Client extends React.Component {
+class Client extends React.Component {
 	render() {
 		const { invoiceData } = this.props;
 
@@ -68,3 +71,9 @@ IconText.propTypes = {
 Client.propTypes = {
 	invoiceData: PropTypes.array,
 };
+
+const mapStateToProps = state => ({
+	invoiceData: getClientDetailsSelector(state),
+});
+
+export default connect(mapStateToProps)(Client);

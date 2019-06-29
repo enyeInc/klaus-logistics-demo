@@ -5,8 +5,7 @@ import { COMPONENT_NAME } from './constants';
  *
  * @function
  * @param {Object} state - redux store state
- * @return {Boolean} the client invoice data
+ * @return {Array} the client invoice data
  * {@link module:invoice/constants::INITIAL_STATE constants::INITIAL_STATE}).
  */
-
 export const invoiceDataSelector = state => state[COMPONENT_NAME].invoiceData;
