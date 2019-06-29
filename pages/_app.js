@@ -11,6 +11,9 @@ import invoice from '../components/invoice';
 const { AppLayout } = appComponents;
 const { requestInvoiceData } = invoice.actions;
 
+//TODO: localize the application
+// https://medium.com/@isaachinman/creating-localised-nextjs-apps-with-next-i18next-f01d5e610307
+
 class MyApp extends App {
 	static async getInitialProps ({ Component, ctx }) {
 		let pageProps = {};

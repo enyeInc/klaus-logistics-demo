@@ -15,7 +15,7 @@ const IconText = ({ type, text }) => (
 
 class Client extends React.Component {
 	render() {
-		const { invoiceData } = this.props;
+		const { clientData } = this.props;
 
 		return (
 			<div className='client-container'>
@@ -29,8 +29,8 @@ class Client extends React.Component {
 				<List
 					bordered
 					itemLayout="vertical"
-					size="large"
-					dataSource={invoiceData}
+					pagination={{ pageSize: 10 }}
+					dataSource={clientData}
 					renderItem={item => (
 						<List.Item
 							key={item.client}
@@ -69,11 +69,11 @@ IconText.propTypes = {
 };
 
 Client.propTypes = {
-	invoiceData: PropTypes.array,
+	clientData: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
-	invoiceData: getClientDetailsSelector(state),
+	clientData: getClientDetailsSelector(state),
 });
 
 export default connect(mapStateToProps)(Client);

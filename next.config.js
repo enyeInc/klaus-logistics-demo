@@ -1,16 +1,14 @@
-module.exports = () => {
-  /* eslint-disable */
-  const withLess = require('@zeit/next-less')
-  const fs = require('fs')
-  const path = require('path')
+const withOptimizedImages = require('next-optimized-images');
+const withLess = require('@zeit/next-less')
+const fs = require('fs')
+const path = require('path')
 
-  // fix: prevents error when .less files are required by node
-  if (typeof require !== 'undefined') {
-    require.extensions['.less'] = file => {}
+if (typeof require !== 'undefined') {
+  require.extensions['.less'] = file => {}
+}
+
+module.exports = withOptimizedImages(withLess({
+  lessLoaderOptions: {
+	javascriptEnabled: true,
   }
-  return withLess({
-    lessLoaderOptions: {
-      javascriptEnabled: true,
-    }
-  })
-};
+}));
