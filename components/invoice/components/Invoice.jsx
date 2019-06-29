@@ -22,15 +22,10 @@ class Invoice extends React.Component {
 		filterColumn: 'client',
 		filterValue: '',
 		filteredDataSource: [],
-		filteredInfo: {},
 		isFitering: false,
 	}
 
 	columns = this.generateColumns();
-
-	handleChange = (pagination, filteredInfo, sortedInfo) => {
-		this.setState({ filteredInfo, sortedInfo });
-	};
 
 	getFilterColumn = filterColumn => {
 		this.setState({ filterColumn });
@@ -72,20 +67,14 @@ class Invoice extends React.Component {
 	}
 
 	generateColumns() {
-		const { filteredInfo } = this.state;
-
 		return INVOICE_COLUMNS.map(column => {
 			const { key } = column;
 
 			return ({
 				...column,
 				align: 'center',
-				filteredValue: filteredInfo[key] || null,
 				filters: key === 'status' ? STATUS_FITLERS : [],
-				onFilter: (filterVal, record) => {
-					const { key } = column;
-					return record[key].value === filterVal;
-				},
+				onFilter: (filterVal, record) => record[key].value === filterVal,
 				render: data => {
 					let content = '';
 
@@ -144,7 +133,6 @@ class Invoice extends React.Component {
 				<Table
 					columns={this.columns}
 					dataSource={source}
-					onChange={this.handleChange}
 				/>
 			</div>
 		);
