@@ -43,7 +43,7 @@ const generateRandomNumber = (ceil = 3) => Math.floor(Math.random() * ceil) + 1;
 const pickRandomIndex = array => array[Math.floor(Math.random()*array.length)];
 
 const generateAmountBalance = status => {
-	const amount = faker.finance.amount();
+	const amount = parseFloat(faker.finance.amount());
 	const balance = status === 'complete' ? 0 : amount;
 
 	return { amount, balance };
@@ -60,7 +60,14 @@ const generateFakeStatuses = (numberOfStatus = 10) => {
 	return fakeStatuses;
 };
 
-const sortByCreatedAt = (itemA, itemB) => {
+const generateAddres = () => faker.fake("" +
+	 "{{address.streetAddress}}," +
+	 " {{address.city}}" +
+	 " {{address.country}}," +
+	 " {{address.zipCode}}"
+);
+
+export const sortByCreatedAt = (itemA, itemB) => {
 	const { createdAt: createdAtA } = itemA;
 	const { createdAt: createdAtB } = itemB;
 
@@ -94,6 +101,7 @@ export const createFakeClient = (status, data) => {
 			...client,
 			address,
 			company: { ...client.company, name: companyName },
+			createdAt: moment(new Date()),
 			email,
 			name,
 			notes,
@@ -104,39 +112,40 @@ export const createFakeClient = (status, data) => {
 	return client;
 };
 
-export const createOrderData = (total, item) => {
-	const { company, createdBy } = item;
+const createFakeOrders = (total, item) => {
 	const orderCount = generateRandomNumber();
-	const orders = [];
 
-	while (orders.length < orderCount) {
-		const isApproved = pickRandomIndex([true, false]);
-
-		const order = {
-			approved: isApproved,
-			company: company.name,
-			createdAt: pickRandomIndex([faker.date.past(), faker.date.recent()]),
-			createdBy,
-			driver: faker.name.findName(),
-			dropOff: faker.fake(""+
-				 "{{address.streetAddress}}," +
-				 " {{address.city}}" +
-				 " {{address.country}},"+
-				 " {{address.zipCode}}"
-		 	),
-			pickUp: faker.fake(""+
-				 "{{address.streetAddress}}," +
-				 " {{address.city}}" +
-				 " {{address.country}},"+
-				 " {{address.zipCode}}"
-		 	),
-			price: faker.finance.amount(),
-		};
-
-		orders.push(order);
+	while (Object.keys(total).length < orderCount) {
+		const data = createOrderData(item);
+		total[data.key] = data;
 	}
 
-	return [...total, ...orders] ;
+	return total;
+};
+
+export const createOrderData = item => {
+	const {
+		approved = pickRandomIndex([true, false]),
+		company: { name: company },
+		createdAt = pickRandomIndex([faker.date.past(), faker.date.recent()]),
+		createdBy = faker.name.findName(),
+		driver = faker.name.findName(),
+		dropOff = generateAddres(),
+		pickUp = generateAddres(),
+		price = parseFloat(faker.finance.amount()),
+	} = item;
+
+	return {
+		approved,
+		company,
+		createdAt,
+		createdBy,
+		driver,
+		dropOff,
+		key: uuid(),
+		pickUp,
+		price,
+	};
 };
 
 export default (fakeDataCount = 10) => {
@@ -144,9 +153,7 @@ export default (fakeDataCount = 10) => {
 
 	// TODO create Invoice data, and client data
 	const appData = fakeStatuses.map(status => createFakeClient(status));
-	const orderData = appData
-		.reduce(createOrderData, [])
-		.sort(sortByCreatedAt);
+	const orderData = appData.reduce(createFakeOrders, {});
 
 	// for each item in the app data create a random
 	return {

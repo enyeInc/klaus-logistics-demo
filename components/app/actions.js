@@ -1,4 +1,4 @@
-import { CREATE_NEW_CLIENT, REQUEST_APP_DATA, UPDATE_APP_DATA } from './actionTypes';
+import * as TYPES from './actionTypes';
 
 /**
  * Triggers request to add a new client to the redux state.
@@ -11,7 +11,21 @@ import { CREATE_NEW_CLIENT, REQUEST_APP_DATA, UPDATE_APP_DATA } from './actionTy
  */
 export const createNewClient = payload => ({
 	payload,
-	type: CREATE_NEW_CLIENT,
+	type: TYPES.CREATE_NEW_CLIENT,
+});
+
+/**
+ * Triggers request to add a new order to the redux state.
+ *
+ * @function
+ *
+ * @param {Object} payload - data passed into the action creator, to be consumed
+ * by reducer or saga
+ * @return {Object} The {@link actionTypes.CREATE_NEW_CLIENT CREATE_NEW_CLIENT} action.
+ */
+export const createNewOrder = payload => ({
+	payload,
+	type: TYPES.CREATE_NEW_ORDER,
 });
 
 /**
@@ -20,7 +34,21 @@ export const createNewClient = payload => ({
  * @function
  * @return {Object} The {@link actionTypes.REQUEST_APP_DATA REQUEST_APP_DATA} action.
  */
-export const requestAppData = () => ({ type: REQUEST_APP_DATA });
+export const requestAppData = () => ({ type: TYPES.REQUEST_APP_DATA });
+
+/**
+ * Toggles the approval status of an order.
+ *
+ * @function
+ *
+ * @param {Object} payload - data passed into the action creator, to be consumed
+ * by reducer or saga
+ * @return {Object} The {@link actionTypes.CREATE_NEW_CLIENT CREATE_NEW_CLIENT} action.
+ */
+export const toggleOrderApproval = payload => ({
+	payload,
+	type: TYPES.TOGGLE_ORDER_APPROVAL,
+});
 
 /**
  * Sets app data in redux store.
@@ -32,5 +60,5 @@ export const requestAppData = () => ({ type: REQUEST_APP_DATA });
  */
 export const updateAppData = payload => ({
 	payload,
-	type: UPDATE_APP_DATA,
+	type: TYPES.UPDATE_APP_DATA,
 });

@@ -47,6 +47,7 @@ export const INVOICE_COLUMNS = [
 ];
 
 export const SETTINGS = {
+	CENTER: 'center',
 	COLUMN_DEFAULT_WIDTH: '12%',
 };
 

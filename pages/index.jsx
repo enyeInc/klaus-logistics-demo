@@ -5,6 +5,6 @@ import invoice from '../components/invoice';
 
 const { Invoice } = invoice.components;
 
-const Index = props => <Invoice {...props} />;
+const Index = props => <Invoice />;
 
 export default Index;

@@ -1,26 +1,40 @@
-import { createFakeClient } from '../utils';
-import { CREATE_NEW_CLIENT, UPDATE_APP_DATA } from './actionTypes';
+import { createFakeClient, createOrderData } from '../utils';
+import * as TYPES from './actionTypes';
 
 const initialState = {};
 
-function createClient(data) {
-
-	return data;
-}
-
 export default (state = { ...initialState }, action) => {
 	switch (action.type) {
-		case(CREATE_NEW_CLIENT): {
-			const { appData } = state;
+		case (TYPES.CREATE_NEW_CLIENT): {
 			const newClient = createFakeClient(null, action.payload);
 
 			return {
 				...state,
-				appData: [newClient, ...appData],
+				appData: [newClient, ...state.appData],
 			};
 		}
+		case (TYPES.CREATE_NEW_ORDER): {
+			const { orderData } = state;
+			const newOrder = createOrderData(action.payload);
 
-		case(UPDATE_APP_DATA): {
+			return {
+				...state,
+				orderData: {
+					[newOrder.id]: newOrder,
+					...state.orderData,
+				},
+			};
+		}
+		case (TYPES.TOGGLE_ORDER_APPROVAL): {
+			const { orderData } = state;
+			const newOrder = createOrderData(action.payload);
+
+			return {
+				...state,
+				orderData: [newOrder, ...orderData],
+			};
+		}
+		case (TYPES.UPDATE_APP_DATA): {
 			const { appData = {}, invoiceData = {}, orderData = {} } = action.payload;
 
 			return {

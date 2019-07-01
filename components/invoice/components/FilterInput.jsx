@@ -1,6 +1,6 @@
-import { Button, DatePicker, Input, Popover, Select } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button, DatePicker, Input, Popover, Select } from 'antd';
 
 import { FILTER_OPTIONS } from '../constants';
 
@@ -56,7 +56,8 @@ const FilterInput = props => {
 						<Button
 							icon='close'
 							onClick={resetFilters}
-							shape='circle' size='small'
+							shape='circle'
+							size='small'
 						/>
 					</Popover>
 				)

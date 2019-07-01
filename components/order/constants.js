@@ -1,12 +1,50 @@
-export const COMPONENT_NAME = 'invoice';
+export const COMPONENT_NAME = 'order';
 
 export const DEFAULT_DATA_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+export const ADD_NEW_ORDERS = 'Add New Orders';
 
 export const FILTER_OPTIONS = {
 	company: 'Company',
 	createdAt: 'Created Date',
-	dueDate: 'Due Date',
+	dropOff: 'Drop off Location',
+	pickUp: 'Pick Up Location',
 };
+
+export const FORM_INPUTS = [
+	{
+		field: 'companyName',
+		iconType: 'info-circle',
+		placeholder: 'Company Name',
+		rules: [{ message: 'You have to input a company name', required: true }],
+	},
+	{
+		field: 'price',
+		iconType: 'dollar',
+		placeholder: 'Total Price',
+		rules: [{ message: 'You have to input a price', required: true }],
+	},
+	{
+		field: 'driver',
+		iconType: 'car',
+		placeholder: 'Assigned Driver',
+		rules: [{ message: 'You have assign a driver', required: true }],
+	},
+	{
+		field: 'pickUp',
+		iconType: 'up-square',
+		placeholder: 'Pick Up Location',
+		rules: [
+			{ message: 'You have to input a pick up location', required: true },
+		],
+	},
+	{
+		field: 'dropOff',
+		iconType: 'down-square',
+		placeholder: 'Drop Off Location',
+		rules: [{ message: 'You have to input a drop off location', required: true }],
+	},
+];
 
 export const INVOICE_COLUMNS = [
 	{
@@ -51,12 +89,9 @@ export const INVOICE_COLUMNS = [
 	},
 ];
 
+export const MODAL_TITLE = 'Add New Client';
+
 export const SETTINGS = {
+	CENTER: 'center',
 	COLUMN_DEFAULT_WIDTH: '12%',
 };
-
-export const STATUS_FITLERS = [
-	{ text: 'Complete', value: 'Complete' },
-	{ text: 'Pending', value: 'Pending' },
-	{ text: 'Late', value: 'Late' },
-];

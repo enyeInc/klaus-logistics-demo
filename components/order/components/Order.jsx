@@ -4,17 +4,14 @@ import React from 'react';
 import { Checkbox, Table, Tag } from 'antd';
 import { connect } from 'react-redux';
 
+import app from '../../app';
+import OrderFilterInput from './OrderFilterInput';
+import OrderModal from './OrderModal';
 import { orderDataSelector } from '../../app/selectors';
+import { DEFAULT_DATA_FORMAT, INVOICE_COLUMNS, SETTINGS } from '../constants';
 
-import {
-	COMPONENT_NAME,
-	DEFAULT_DATA_FORMAT,
-	INVOICE_COLUMNS,
-	STATUS_FITLERS,
-	SETTINGS
-} from '../constants';
-
-const { COLUMN_DEFAULT_WIDTH } = SETTINGS;
+const { createNewOrder, toggleApproval } = app.actions;
+const { CENTER, COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
 class Order extends React.Component {
 	state = {
@@ -22,6 +19,7 @@ class Order extends React.Component {
 		filterValue: '',
 		filteredDataSource: [],
 		isFitering: false,
+		isModalOpen: false,
 	}
 
 	columns = this.generateColumns();
@@ -45,19 +43,17 @@ class Order extends React.Component {
 		let filterValue;
 		let isFitering = true;
 
-		if (column === 'company') {
-			const { value: newfilterValue } = event.target;
-			isFitering = !!newfilterValue;
-			filterValue = newfilterValue;
-		}
-
 		const filteredDataSource = orderData.filter(data => {
-			const value = column === 'company' ? data[column].name : data[column];
+			const value = data[column];
 
-			if (['createdAt', 'dueDate'].includes(column)) {
+			if (['createdAt'].includes(column)) {
 				const [date1, date2] = event;
 				return moment(value).isBetween(date1, date2);
 			}
+
+			const { value: newfilterValue } = event.target;
+			isFitering = !!newfilterValue;
+			filterValue = newfilterValue;
 
 			return value.toLowerCase().includes(filterValue.toLowerCase());
 		});
@@ -66,20 +62,21 @@ class Order extends React.Component {
 	}
 
 	generateColumns() {
+		const { toggleApproval } = this.props;
+
 		return INVOICE_COLUMNS.map(column => {
 			const { key } = column;
 
 			return ({
 				...column,
-				align: 'center',
-				filters: key === 'status' ? STATUS_FITLERS : [],
-				onFilter: (filterVal, record) => record[key].value === filterVal,
+				align: CENTER,
+				onFilter: (filterVal, record) => record[key] === filterVal,
 				render: data => {
 					let content = '';
 
 					switch (key) {
 						case 'approved': {
-							content = <Checkbox checked={data} />;
+							content = <Checkbox checked={data} onChange={toggleApproval} />;
 							break;
 						}
 						case 'createdAt':
@@ -111,16 +108,68 @@ class Order extends React.Component {
 		});
 	}
 
+	toggleModal = () => {
+		const { isModalOpen } = this.state;
+		const { form } = this.formRef.props;
+
+		form.resetFields();
+		this.setState({ isModalOpen: !isModalOpen });
+	}
+
+	handleCreate = () => {
+		const { form } = this.formRef.props;
+		const { createNewOrder } = this.props;
+
+		form.validateFields((error, fields) => {
+			if (error) {
+				return error;
+			}
+
+			createNewOrder({
+				...fields,
+				approved: false,
+				company: { name: fields.companyName },
+				createdAt: moment(new Date()),
+			});
+			this.toggleModal();
+		});
+	}
+
+	saveFormRef = formRef => {
+		this.formRef = formRef;
+	}
+
 	render() {
 		const { orderData } = this.props;
-		const { filterColumn, filterValue, filteredDataSource, isFitering } = this.state;
+		const {
+			filterColumn,
+			filterValue,
+			filteredDataSource,
+			isFitering,
+			isModalOpen,
+		} = this.state;
 		const source = isFitering ? filteredDataSource : orderData;
 
 		return(
-			<div className='invoice-container'>
+			<div className='orders-container'>
+				<OrderFilterInput
+					filterColumn={filterColumn}
+					filterValue={filterValue}
+					getFilterColumn={this.getFilterColumn}
+					isFitering={isFitering}
+					onDataSourceFilter={this.onDataSourceFilter}
+					resetFilters={this.resetFilters}
+					toggleModal={this.toggleModal}
+				/>
 				<Table
 					columns={this.columns}
-					dataSource={orderData}
+					dataSource={source}
+				/>
+				<OrderModal
+					isVisible={isModalOpen}
+					toggleModal={this.toggleModal}
+					onCreate={this.handleCreate}
+					wrappedComponentRef={this.saveFormRef}
 				/>
 			</div>
 		);
@@ -128,11 +177,15 @@ class Order extends React.Component {
 }
 
 Order.propTypes = {
+	createNewOrder: PropTypes.func,
 	orderData: PropTypes.array,
+	toggleApproval: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
 	orderData: orderDataSelector(state),
 });
 
-export default connect(mapStateToProps)(Order);
+const mapDispatchToProps = { createNewOrder, toggleApproval };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Order);

@@ -6,17 +6,11 @@ import { connect } from 'react-redux';
 
 import FilterInput from './FilterInput';
 import { invoiceDataSelector } from '../selectors';
+import { DEFAULT_DATA_FORMAT, INVOICE_COLUMNS, STATUS_FITLERS, SETTINGS } from '../constants';
 
-import {
-	COMPONENT_NAME,
-	DEFAULT_DATA_FORMAT,
-	INVOICE_COLUMNS,
-	STATUS_FITLERS,
-	SETTINGS
-} from '../constants';
+const { CENTER, COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
-const { COLUMN_DEFAULT_WIDTH } = SETTINGS;
-
+// TODO: Add Ability create new orders
 class Invoice extends React.Component {
 	state = {
 		filterColumn: 'company',
@@ -69,10 +63,10 @@ class Invoice extends React.Component {
 	generateColumns() {
 		return INVOICE_COLUMNS.map(column => {
 			const { key } = column;
-			
+
 			return ({
 				...column,
-				align: 'center',
+				align: CENTER,
 				filters: key === 'status' ? STATUS_FITLERS : [],
 				onFilter: (filterVal, record) => record[key].value === filterVal,
 				render: data => {

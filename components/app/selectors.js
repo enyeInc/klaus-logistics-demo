@@ -1,3 +1,6 @@
+import { createSelector } from 'reselect';
+
+import { sortByCreatedAt } from '../utils';
 import { COMPONENT_NAME } from './constants';
 
 /**
@@ -18,4 +21,7 @@ export const appDataSelector = state => state[COMPONENT_NAME].appData;
  * @return {Array} the client invoice data
  * {@link module:app/constants::INITIAL_STATE constants::INITIAL_STATE}).
  */
-export const orderDataSelector = state => state[COMPONENT_NAME].orderData;
+export const orderDataSelector = createSelector(
+	state => state[COMPONENT_NAME].orderData,
+	orderData => Object.values(orderData).sort(sortByCreatedAt)
+);
