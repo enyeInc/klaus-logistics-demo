@@ -8,7 +8,7 @@
     "dev": "next .",
     "lint": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "start": "next start -p ${PORT}"
+    "start": "NODE_ENV=production next start -p ${PORT}"
   },
   "repository": {
     "type": "git",
