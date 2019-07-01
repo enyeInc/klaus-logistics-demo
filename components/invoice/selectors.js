@@ -13,8 +13,8 @@ import { appDataSelector } from '../app/selectors';
 export const invoiceDataSelector = createSelector(
 	appDataSelector,
 	appData => appData.map(data => {
-		const { amount, balance, company, createdAt, createdBy, status } = data;
+		const { amount, balance, company, createdAt, createdBy, dueDate, key, status } = data;
 
-		return { amount, balance, company, createdAt, createdBy, status };
+		return { amount, balance, company, createdAt, createdBy, dueDate, key, status };
 	})
 );

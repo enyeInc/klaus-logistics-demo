@@ -12,6 +12,31 @@ const IconText = ({ type, text }) => (
 	</span>
 );
 
+function generateListItem(item) {
+	const { company, image, notes } = item;
+	const { name, catchPhrase } = company;
+
+	return (
+		<List.Item
+			key={name}
+			actions={[
+				<IconText key="star-o" type="star-o" text="156" />,
+				<IconText key="like-o" type="like-o" text="156" />,
+				<IconText key="message" type="message" text="2" />,
+			]}
+		>
+			<List.Item.Meta
+				avatar={<Avatar src={image} />}
+				title={<a href={item.href}>{name}</a>}
+				description={catchPhrase}
+			/>
+			<div className='client-description'>
+				{notes}
+			</div>
+		</List.Item>
+	);
+}
+
 class ClientList extends React.Component {
 	render() {
 		const { clientData } = this.props;
@@ -22,25 +47,7 @@ class ClientList extends React.Component {
 				itemLayout="vertical"
 				pagination={{ pageSize: 10 }}
 				dataSource={clientData}
-				renderItem={item => (
-					<List.Item
-						key={item.client}
-						actions={[
-							<IconText key="star-o" type="star-o" text="156" />,
-							<IconText key="like-o" type="like-o" text="156" />,
-							<IconText key="message" type="message" text="2" />,
-						]}
-					>
-						<List.Item.Meta
-							avatar={<Avatar src={item.image} />}
-							title={<a href={item.href}>{item.client}</a>}
-							description={item.slogan}
-						/>
-						<div className='client-description'>
-							{item.description}
-						</div>
-					</List.Item>
-				)}
+				renderItem={item => generateListItem(item)}
 			/>
 		);
 	}

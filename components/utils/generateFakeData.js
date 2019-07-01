@@ -56,17 +56,39 @@ const generateFakeStatuses = (numberOfStatus = 10) => {
 	return fakeStatuses;
 };
 
-export const createFakeClient = (status, data = {}) => {
-	// console.log(faker.helpers.createCard())
-	return ({
-		...generateDates(status),
-		...generateAmountBalance(status),
+export const createFakeClient = (status, data) => {
+	let client = {
 		...faker.helpers.createCard(),
-		createdBy: faker.name.findName(),
 		image: faker.image.image(),
 		key: uuid(),
-		status: getStatus(status),
-	});
+		notes: faker.lorem.paragraph(),
+	};
+
+	if (status) {
+		client = {
+			...client,
+			...generateDates(status),
+			...generateAmountBalance(status),
+			createdBy: faker.name.findName(),
+			status: getStatus(status),
+		};
+	}
+
+	if (data) {
+		const { address, companyName, email, name, notes, phone } = data;
+
+		client = {
+			...client,
+			address,
+			company: { ...client.company, name: companyName },
+			email,
+			name,
+			notes,
+			phone,
+		};
+	}
+
+	return client;
 };
 
 export default (fakeDataCount = 10) => {

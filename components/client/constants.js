@@ -4,7 +4,7 @@ export const COMPONENT_NAME = 'client';
 
 export const FORM_INPUTS = [
 	{
-		field: 'client',
+		field: 'companyName',
 		iconType: 'info-circle',
 		placeholder: 'Company Name',
 		rules: [{ message: 'You have to input a name', required: true }],
@@ -37,7 +37,7 @@ export const FORM_INPUTS = [
 		rules: [{ message: 'You have to input a valid number', required: true }],
 	},
 	{
-		field: 'description',
+		field: 'notes',
 		iconType: 'info-circle',
 		placeholder: 'Notes About Company',
 		rules: [],

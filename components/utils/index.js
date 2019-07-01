@@ -1,4 +1,4 @@
-import generateFakeData from './generateFakeData';
+import generateFakeData, { createFakeClient } from './generateFakeData';
 import generateSigninInputs from './generateSigninInputs';
 
-export { generateFakeData, generateSigninInputs };
+export { createFakeClient, generateFakeData, generateSigninInputs };

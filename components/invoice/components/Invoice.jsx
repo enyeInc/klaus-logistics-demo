@@ -69,7 +69,7 @@ class Invoice extends React.Component {
 	generateColumns() {
 		return INVOICE_COLUMNS.map(column => {
 			const { key } = column;
-
+			
 			return ({
 				...column,
 				align: 'center',
