@@ -114,13 +114,17 @@ export const createFakeClient = (status, data) => {
 
 const createFakeOrders = (total, item) => {
 	const orderCount = generateRandomNumber();
+	const orders = {};
 
-	while (Object.keys(total).length < orderCount) {
+	while (Object.keys(orders).length < orderCount) {
 		const data = createOrderData(item);
-		total[data.key] = data;
+		orders[data.key] = data;
 	}
 
-	return total;
+	return {
+		...total,
+		...orders,
+	};
 };
 
 export const createOrderData = item => {
