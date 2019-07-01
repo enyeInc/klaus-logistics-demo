@@ -1,4 +1,4 @@
-import faker from 'faker';
+import faker from 'faker/locale/de';
 import uuid from 'uuid';
 
 const STATUSES = [ 'complete', 'late', 'pending' ];
@@ -56,18 +56,21 @@ const generateFakeStatuses = (numberOfStatus = 10) => {
 	return fakeStatuses;
 };
 
+export const createFakeClient = (status, data = {}) => {
+	// console.log(faker.helpers.createCard())
+	return ({
+		...generateDates(status),
+		...generateAmountBalance(status),
+		...faker.helpers.createCard(),
+		createdBy: faker.name.findName(),
+		image: faker.image.image(),
+		key: uuid(),
+		status: getStatus(status),
+	});
+};
+
 export default (fakeDataCount = 10) => {
 	const fakeStatuses = generateFakeStatuses(fakeDataCount);
 
-	return fakeStatuses.map(status => ({
-		...generateDates(status),
-		...generateAmountBalance(status),
-		client: faker.company.companyName(),
-		createdBy: faker.name.findName(),
-		description: faker.lorem.paragraph(),
-		image: faker.image.image(),
-		key: uuid(),
-		slogan: faker.company.bs(),
-		status: getStatus(status),
-	}));
+	return fakeStatuses.map(status => createFakeClient(status));
 };

@@ -1,4 +1,6 @@
 import * as components from './components';
+import * as selectors from './selectors';
+
 import './styles.less';
 
-export { components };
+export default { components, selectors };

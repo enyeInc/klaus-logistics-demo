@@ -1,11 +1,20 @@
-import { COMPONENT_NAME } from './constants';
+import { createSelector } from 'reselect';
+
+import { appDataSelector } from '../app/selectors';
 
 /**
- * Selects the <tt>invoiceData</tt> key.
+ * Selects the client details fron the application data array
  *
  * @function
  * @param {Object} state - redux store state
- * @return {Array} the client invoice data
- * {@link module:invoice/constants::INITIAL_STATE constants::INITIAL_STATE}).
+ * @return {Array} a list of client details
+ * {@link module:app/constants::INITIAL_STATE constants::INITIAL_STATE}).
  */
-export const invoiceDataSelector = state => state[COMPONENT_NAME].invoiceData;
+export const invoiceDataSelector = createSelector(
+	appDataSelector,
+	appData => appData.map(data => {
+		const { amount, balance, company, createdAt, createdBy, status } = data;
+
+		return { amount, balance, company, createdAt, createdBy, status };
+	})
+);

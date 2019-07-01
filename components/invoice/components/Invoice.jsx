@@ -19,7 +19,7 @@ const { COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
 class Invoice extends React.Component {
 	state = {
-		filterColumn: 'client',
+		filterColumn: 'company',
 		filterValue: '',
 		filteredDataSource: [],
 		isFitering: false,
@@ -33,7 +33,7 @@ class Invoice extends React.Component {
 
 	resetFilters = () => {
 		this.setState({
-			filterColumn: 'client',
+			filterColumn: 'company',
 			filterValue: '',
 			filteredDataSource: [],
 			isFitering: false,
@@ -46,14 +46,14 @@ class Invoice extends React.Component {
 		let filterValue;
 		let isFitering = true;
 
-		if (column === 'client') {
+		if (column === 'company') {
 			const { value: newfilterValue } = event.target;
 			isFitering = !!newfilterValue;
 			filterValue = newfilterValue;
 		}
 
 		const filteredDataSource = invoiceData.filter(data => {
-			const value = data[column];
+			const value = column === 'company' ? data[column].name : data[column];
 
 			if (['createdAt', 'dueDate'].includes(column)) {
 				const [date1, date2] = event;
@@ -79,6 +79,10 @@ class Invoice extends React.Component {
 					let content = '';
 
 					switch (key) {
+						case 'company': {
+							content = data.name;
+							break;
+						}
 						case 'status': {
 							const { color, value } = data;
 							content = <Tag color={color}>{value}</Tag>;

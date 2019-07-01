@@ -5,11 +5,11 @@ import withReduxSaga from 'next-redux-saga';
 import { Provider } from 'react-redux';
 
 import { configureStore } from '../store';
-import { components as appComponents } from '../components/app';
+import app from '../components/app';
 import invoice from '../components/invoice';
 
-const { AppLayout } = appComponents;
-const { requestInvoiceData } = invoice.actions;
+const { AppLayout } = app.components;
+const { requestAppData } = app.actions;
 
 //TODO: localize the application
 // https://medium.com/@isaachinman/creating-localised-nextjs-apps-with-next-i18next-f01d5e610307
@@ -24,8 +24,8 @@ class MyApp extends App {
 
 		const state = ctx.store.getState();
 
-		if (!state.invoice.invoiceData) {
-			await ctx.store.dispatch(requestInvoiceData());
+		if (!state.app.appData) {
+			await ctx.store.dispatch(requestAppData());
 		}
 
 		return { pageProps };

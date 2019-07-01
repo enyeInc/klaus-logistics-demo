@@ -1,9 +1,9 @@
 import { all } from 'redux-saga/effects';
 
-import invoice from './invoice';
+import app from './app';
 
 export default function* rootSaga(){
 	yield all([
-		invoice.sagas(),
+		app.sagas(),
 	]);
 }

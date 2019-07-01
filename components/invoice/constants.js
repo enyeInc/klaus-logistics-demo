@@ -3,7 +3,7 @@ export const COMPONENT_NAME = 'invoice';
 export const DEFAULT_DATA_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 export const FILTER_OPTIONS = {
-	client: 'Client',
+	company: 'Company',
 	createdAt: 'Created Date',
 	dueDate: 'Due Date',
 };
@@ -15,9 +15,9 @@ export const INVOICE_COLUMNS = [
 		title: 'Status',
 	},
 	{
-		dataIndex: 'client',
-		key: 'client',
-		title: 'Client',
+		dataIndex: 'company',
+		key: 'company',
+		title: 'Company',
 	},
 	{
 		dataIndex: 'amount',

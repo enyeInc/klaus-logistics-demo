@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Avatar, Icon, List } from 'antd';
 import { connect } from 'react-redux';
 
-import { getClientDetailsSelector } from '../selectors';
+import { companyDetailsSelector } from '../selectors';
 
 const IconText = ({ type, text }) => (
 	<span>
@@ -30,13 +30,6 @@ class ClientList extends React.Component {
 							<IconText key="like-o" type="like-o" text="156" />,
 							<IconText key="message" type="message" text="2" />,
 						]}
-						extra={
-							<img
-								width={272}
-								alt="logo"
-								src={item.image}
-							/>
-						}
 					>
 						<List.Item.Meta
 							avatar={<Avatar src={item.image} />}
@@ -63,7 +56,7 @@ ClientList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	clientData: getClientDetailsSelector(state),
+	clientData: companyDetailsSelector(state),
 });
 
 export default connect(mapStateToProps)(ClientList);

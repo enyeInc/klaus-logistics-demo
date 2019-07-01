@@ -1,5 +1,5 @@
-import { components } from '../components/client';
+import client from '../components/client';
 
-const { Client } = components;
+const { Client } = client.components;
 
 export default Client;

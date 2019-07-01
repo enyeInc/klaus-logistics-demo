@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import invoice from './invoice';
+import app from './app';
 
 export default combineReducers({
-	invoice: invoice.reducers,
+	app: app.reducers,
 });

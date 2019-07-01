@@ -1,26 +1,41 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Modal } from 'antd';
+import React, { Fragment } from 'react';
+import { Button, Form, Icon, Input, Modal, Upload, message } from 'antd';
 
-const ClientModal = props => {
-	const { isVisible, toggleModal } = props;
+import { generateSigninInputs } from '../../utils';
+import { FORM_INPUTS, MODAL_TITLE } from '../constants';
 
-	return (
-		<Modal
-			title="Basic Modal"
-			visible={isVisible}
-			onOk={toggleModal}
-			onCancel={toggleModal}
-		>
-			<p>{'Some contents...'}</p>
-		</Modal>
+class ClientModal extends React.Component {
+	onCancel = () => {
+		this.setState({ image: '', loading: false });
+		this.props.toggleModal();
+	}
 
-	);
-};
+	render() {
+		const { form, isVisible, onCreate, toggleModal } = this.props;
+		const { getFieldDecorator } = form;
+
+		return (
+			<Modal
+				title={MODAL_TITLE}
+				visible={isVisible}
+				onOk={onCreate}
+				onCancel={this.onCancel}
+			>
+				<Form>
+					{generateSigninInputs(getFieldDecorator, FORM_INPUTS)}
+				</Form>
+			</Modal>
+
+		);
+	}
+}
 
 ClientModal.propTypes = {
+	form: PropTypes.object,
 	isVisible: PropTypes.bool,
+	onCreate: PropTypes.func,
 	toggleModal: PropTypes.func,
 };
 
-export default ClientModal;
+export default Form.create()(ClientModal);

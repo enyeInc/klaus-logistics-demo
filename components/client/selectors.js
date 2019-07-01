@@ -1,20 +1,20 @@
 import { createSelector } from 'reselect';
 
-import { invoiceDataSelector } from '../invoice/selectors';
+import { appDataSelector } from '../app/selectors';
 
 /**
- * Selects the client details fron the invoice data array
+ * Selects the client details fron the application data array
  *
  * @function
  * @param {Object} state - redux store state
  * @return {Array} a list of client details
- * {@link module:invoice/constants::INITIAL_STATE constants::INITIAL_STATE}).
+ * {@link module:app/constants::INITIAL_STATE constants::INITIAL_STATE}).
  */
-export const getClientDetailsSelector = createSelector(
-	invoiceDataSelector,
-	invoiceData => invoiceData.map(data => {
-		const { client, description, href, image, slogan } = data;
+export const companyDetailsSelector = createSelector(
+	appDataSelector,
+	appData => appData.map(data => {
+		const { company, description, href, image, slogan } = data;
 
-		return { client, description, href, image, slogan };
+		return { company, description, href, image, slogan };
 	})
 );
