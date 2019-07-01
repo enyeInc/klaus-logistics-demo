@@ -14,8 +14,6 @@ export default (state = { ...initialState }, action) => {
 			const { appData } = state;
 			const newClient = createFakeClient(null, action.payload);
 
-			console.log(action.payload, newClient);
-
 			return {
 				...state,
 				appData: [newClient, ...appData],
@@ -23,11 +21,13 @@ export default (state = { ...initialState }, action) => {
 		}
 
 		case(UPDATE_APP_DATA): {
-			const { appData } = action.payload;
+			const { appData = {}, invoiceData = {}, orderData = {} } = action.payload;
 
 			return {
 				...state,
 				appData,
+				invoiceData,
+				orderData,
 			};
 		}
 

@@ -38,6 +38,10 @@ const generateDates = status => {
 	};
 };
 
+const generateRandomNumber = (ceil = 3) => Math.floor(Math.random() * ceil) + 1;
+
+const pickRandomIndex = array => array[Math.floor(Math.random()*array.length)];
+
 const generateAmountBalance = status => {
 	const amount = faker.finance.amount();
 	const balance = status === 'complete' ? 0 : amount;
@@ -49,11 +53,26 @@ const generateFakeStatuses = (numberOfStatus = 10) => {
 	const fakeStatuses = [];
 
 	while (fakeStatuses.length < numberOfStatus) {
-		const randomStatus = STATUSES[Math.floor(Math.random()*STATUSES.length)];
+		const randomStatus = pickRandomIndex(STATUSES);
 		fakeStatuses.push(randomStatus);
 	}
 
 	return fakeStatuses;
+};
+
+const sortByCreatedAt = (itemA, itemB) => {
+	const { createdAt: createdAtA } = itemA;
+	const { createdAt: createdAtB } = itemB;
+
+	if (createdAtA > createdAtB) {
+		return -1;
+	}
+
+	if (createdAtA < createdAtB) {
+		return 1;
+	}
+
+	return 0;
 };
 
 export const createFakeClient = (status, data) => {
@@ -67,9 +86,6 @@ export const createFakeClient = (status, data) => {
 		notes: faker.lorem.paragraph(),
 		status: getStatus(status),
 	};
-
-	// TODO: restrucutre invoice data retrival - separate it from application
-	// level data
 
 	if (data) {
 		const { address, companyName, email, name, notes, phone } = data;
@@ -88,8 +104,53 @@ export const createFakeClient = (status, data) => {
 	return client;
 };
 
+export const createOrderData = (total, item) => {
+	const { company, createdBy } = item;
+	const orderCount = generateRandomNumber();
+	const orders = [];
+
+	while (orders.length < orderCount) {
+		const isApproved = pickRandomIndex([true, false]);
+
+		const order = {
+			approved: isApproved,
+			company: company.name,
+			createdAt: pickRandomIndex([faker.date.past(), faker.date.recent()]),
+			createdBy,
+			driver: faker.name.findName(),
+			dropOff: faker.fake(""+
+				 "{{address.streetAddress}}," +
+				 " {{address.city}}" +
+				 " {{address.country}},"+
+				 " {{address.zipCode}}"
+		 	),
+			pickUp: faker.fake(""+
+				 "{{address.streetAddress}}," +
+				 " {{address.city}}" +
+				 " {{address.country}},"+
+				 " {{address.zipCode}}"
+		 	),
+			price: faker.finance.amount(),
+		};
+
+		orders.push(order);
+	}
+
+	return [...total, ...orders] ;
+};
+
 export default (fakeDataCount = 10) => {
 	const fakeStatuses = generateFakeStatuses(fakeDataCount);
 
-	return fakeStatuses.map(status => createFakeClient(status));
+	// TODO create Invoice data, and client data
+	const appData = fakeStatuses.map(status => createFakeClient(status));
+	const orderData = appData
+		.reduce(createOrderData, [])
+		.sort(sortByCreatedAt);
+
+	// for each item in the app data create a random
+	return {
+		appData,
+		orderData,
+	};
 };

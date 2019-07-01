@@ -13,7 +13,7 @@ export const MENU_ITEMS = [
 	},
 	{
 		href: '/orders',
-		iconType: 'inbox',
+		iconType: 'shopping-cart',
 		key: '3',
 		text: 'Orders',
 	},

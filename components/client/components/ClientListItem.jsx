@@ -9,12 +9,8 @@ const { LAYOUT } = SETTINGS;
 
 const IconText = ({ type, text }) => (
 	<span>
-		<Icon
-			type={type}
-			theme='twoTone'
-			twoToneColor={text === 'Orders' && '#52c41a'}
-		/>
-		{text}
+		<Icon type={type} />
+		<a>{text}</a>
 	</span>
 );
 
@@ -26,8 +22,8 @@ const ClientListItem = ({ item }) => {
 		<List.Item
 			key={name}
 			actions={[
-				<IconText key="star-o" type="star-o" text="Orders" />,
-				<IconText key="like-o" type="like-o" text="Invoices" />,
+				<IconText key="orders" type="shopping-cart" text="Orders" />,
+				<IconText key="invoices" type="book" text="Invoices" />,
 			]}
 		>
 			<List.Item.Meta

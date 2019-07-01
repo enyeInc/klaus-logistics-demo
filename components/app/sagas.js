@@ -12,7 +12,7 @@ import { REQUEST_APP_DATA } from './actionTypes';
 function* getAppData() {
 	try {
 		const appData = yield generateFakeData(12);
-		yield put(updateAppData({ appData }));
+		yield put(updateAppData(appData));
 	} catch(error) {
 	    console.log(error);
 	}

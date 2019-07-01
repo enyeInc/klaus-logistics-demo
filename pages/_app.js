@@ -1,4 +1,5 @@
 import App, { Container } from 'next/app';
+import Head from 'next/head';
 import React from 'react';
 import withRedux from 'next-redux-wrapper';
 import withReduxSaga from 'next-redux-saga';
@@ -36,6 +37,13 @@ class MyApp extends App {
 
 		return (
 			<Container>
+				<Head>
+					<meta
+						content="width=device-width, initial-scale=1.0"
+						key="viewport"
+						name="viewport"
+					/>
+				</Head>
 			  	<Provider store={store}>
 					<AppLayout router={router}>
 						<Component {...pageProps} />

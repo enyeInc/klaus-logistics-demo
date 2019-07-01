@@ -2,11 +2,15 @@ import { Breadcrumb, Icon, Layout, LocaleProvider } from 'antd';
 import German from 'antd/lib/locale-provider/de_DE';
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import 'moment/locale/de';
 
 import Footer from './Footer';
 import Header from './Header';
 import invoice from '../../invoice';
 import { components as menuComponents } from '../../menu';
+
+moment.locale('de');
 
 const { Menu } = menuComponents;
 const { Invoice } = invoice.components;

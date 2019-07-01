@@ -1,5 +1,5 @@
-import client from '../components/client';
+import order from '../components/order';
 
-const { Client } = client.components;
+const { Order } = order.components;
 
-export default Client;
+export default Order;
