@@ -10,7 +10,7 @@ import OrderModal from './OrderModal';
 import { orderDataSelector } from '../../app/selectors';
 import { DEFAULT_DATA_FORMAT, INVOICE_COLUMNS, SETTINGS } from '../constants';
 
-const { createNewOrder, toggleApproval } = app.actions;
+const { createNewOrder, toggleOrderApproval } = app.actions;
 const { CENTER, COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
 class Order extends React.Component {
@@ -62,7 +62,7 @@ class Order extends React.Component {
 	}
 
 	generateColumns() {
-		const { toggleApproval } = this.props;
+		const { toggleOrderApproval } = this.props;
 
 		return INVOICE_COLUMNS.map(column => {
 			const { key } = column;
@@ -71,12 +71,20 @@ class Order extends React.Component {
 				...column,
 				align: CENTER,
 				onFilter: (filterVal, record) => record[key] === filterVal,
-				render: data => {
+				render: (data, record) => {
 					let content = '';
 
 					switch (key) {
 						case 'approved': {
-							content = <Checkbox checked={data} onChange={toggleApproval} />;
+							content = (
+								<Checkbox
+									checked={data}
+									onChange={() => toggleOrderApproval({
+										 approved: !data,
+										 id: record.key,
+									})}
+								/>
+							);
 							break;
 						}
 						case 'createdAt':
@@ -179,13 +187,13 @@ class Order extends React.Component {
 Order.propTypes = {
 	createNewOrder: PropTypes.func,
 	orderData: PropTypes.array,
-	toggleApproval: PropTypes.func,
+	toggleOrderApproval: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
 	orderData: orderDataSelector(state),
 });
 
-const mapDispatchToProps = { createNewOrder, toggleApproval };
+const mapDispatchToProps = { createNewOrder, toggleOrderApproval };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Order);

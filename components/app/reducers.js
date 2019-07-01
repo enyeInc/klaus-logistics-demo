@@ -26,12 +26,16 @@ export default (state = { ...initialState }, action) => {
 			};
 		}
 		case (TYPES.TOGGLE_ORDER_APPROVAL): {
+			const { approved, id } = action.payload;
 			const { orderData } = state;
-			const newOrder = createOrderData(action.payload);
+			const item = orderData[id];
 
 			return {
 				...state,
-				orderData: [newOrder, ...orderData],
+				orderData: {
+					...orderData,
+					[id]: { ...item, approved },
+				},
 			};
 		}
 		case (TYPES.UPDATE_APP_DATA): {
