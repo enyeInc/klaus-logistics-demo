@@ -58,21 +58,18 @@ const generateFakeStatuses = (numberOfStatus = 10) => {
 
 export const createFakeClient = (status, data) => {
 	let client = {
+		...generateDates(status),
+		...generateAmountBalance(status),
 		...faker.helpers.createCard(),
+		createdBy: faker.name.findName(),
 		image: faker.image.image(),
 		key: uuid(),
 		notes: faker.lorem.paragraph(),
+		status: getStatus(status),
 	};
 
-	if (status) {
-		client = {
-			...client,
-			...generateDates(status),
-			...generateAmountBalance(status),
-			createdBy: faker.name.findName(),
-			status: getStatus(status),
-		};
-	}
+	// TODO: restrucutre invoice data retrival - separate it from application
+	// level data
 
 	if (data) {
 		const { address, companyName, email, name, notes, phone } = data;

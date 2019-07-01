@@ -45,3 +45,8 @@ export const FORM_INPUTS = [
 ];
 
 export const MODAL_TITLE = 'Create New Client';
+
+export const SETTINGS = {
+	LAYOUT: 'vertical',
+	PAGE_SIZE: 10,
+};

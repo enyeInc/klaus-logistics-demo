@@ -1,41 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Icon, List } from 'antd';
+import { List } from 'antd';
 import { connect } from 'react-redux';
 
+import ClientListItem from './ClientListItem';
 import { companyDetailsSelector } from '../selectors';
+import { SETTINGS } from '../constants';
 
-const IconText = ({ type, text }) => (
-	<span>
-		<Icon type={type} />
-		{text}
-	</span>
-);
-
-function generateListItem(item) {
-	const { company, image, notes } = item;
-	const { name, catchPhrase } = company;
-
-	return (
-		<List.Item
-			key={name}
-			actions={[
-				<IconText key="star-o" type="star-o" text="156" />,
-				<IconText key="like-o" type="like-o" text="156" />,
-				<IconText key="message" type="message" text="2" />,
-			]}
-		>
-			<List.Item.Meta
-				avatar={<Avatar src={image} />}
-				title={<a href={item.href}>{name}</a>}
-				description={catchPhrase}
-			/>
-			<div className='client-description'>
-				{notes}
-			</div>
-		</List.Item>
-	);
-}
+const { LAYOUT, PAGE_SIZE } = SETTINGS;
 
 class ClientList extends React.Component {
 	render() {
@@ -44,19 +16,14 @@ class ClientList extends React.Component {
 		return (
 			<List
 				bordered
-				itemLayout="vertical"
-				pagination={{ pageSize: 10 }}
+				itemLayout={LAYOUT}
+				pagination={{ pageSize: PAGE_SIZE }}
 				dataSource={clientData}
-				renderItem={item => generateListItem(item)}
+				renderItem={item => <ClientListItem item={item} />}
 			/>
 		);
 	}
 }
-
-IconText.propTypes = {
-	text: PropTypes.string,
-	type: PropTypes.string,
-};
 
 ClientList.propTypes = {
 	clientData: PropTypes.array,

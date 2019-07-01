@@ -13,8 +13,8 @@ import { appDataSelector } from '../app/selectors';
 export const companyDetailsSelector = createSelector(
 	appDataSelector,
 	appData => appData.map(data => {
-		const { company, image, notes } = data;
+		const { address, company, email, image, name, notes, phone, website } = data;
 
-		return { company, image, notes };
+		return { address, company, email, image, name, notes, phone, website };
 	})
 );
