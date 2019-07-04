@@ -131,6 +131,9 @@ class Invoice extends React.Component {
 				<Table
 					columns={this.columns}
 					dataSource={source}
+					expandRowByClick={true}
+					expandedRowRender={() =>(<div>{'Hello World'}</div>)}
+					onExpand={(expanded, record) => console.log(expanded, record) }
 				/>
 			</div>
 		);

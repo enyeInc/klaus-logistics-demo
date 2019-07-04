@@ -1,4 +1,4 @@
-# project-template
+# Klaus Hofmann Logistics
 Document your applications API and general usage
 
 TODO: Put a quick description of the application here.
