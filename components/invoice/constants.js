@@ -49,6 +49,7 @@ export const INVOICE_COLUMNS = [
 export const SETTINGS = {
 	CENTER: 'center',
 	COLUMN_DEFAULT_WIDTH: '17%',
+	TEXT: ['Days Over Due', 'Days Until Due', 'Amount Paid'],
 };
 
 export const STATUS_FITLERS = [

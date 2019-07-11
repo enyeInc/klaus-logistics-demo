@@ -34,7 +34,15 @@ const generateDates = status => {
 	let dueDate = faker.date.recent();
 
 	if (status === 'pending') {
-		dueDate = faker.date.future();
+		const randomAmountOfDays = generateRandomNumber(100);
+		dueDate = moment(dueDate)
+			.add(randomAmountOfDays, 'days')
+			.format('YYYY-MM-DD HH:mm:ss');
+	} else if (status === 'late') {
+		const randomAmountOfDays = generateRandomNumber(90);
+		dueDate = moment(dueDate)
+			.subtract(randomAmountOfDays, 'days')
+			.format('YYYY-MM-DD HH:mm:ss');
 	}
 
 	return {
@@ -45,7 +53,11 @@ const generateDates = status => {
 
 const generateAmountBalance = status => {
 	const amount = parseFloat(faker.finance.amount());
-	const balance = status === 'complete' ? 0 : amount;
+	let balance = status === 'complete' ? 0 : amount;
+
+	if (status === 'late') {
+		balance = generateRandomNumber(amount - 1);
+	}
 
 	return { amount, balance };
 };

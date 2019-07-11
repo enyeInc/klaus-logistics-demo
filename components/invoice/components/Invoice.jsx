@@ -5,6 +5,7 @@ import { Table, Tag } from 'antd';
 import { connect } from 'react-redux';
 
 import FilterInput from './FilterInput';
+import InvoiceDetails from './InvoiceDetails';
 import { invoiceDataSelector } from '../selectors';
 import { DEFAULT_DATA_FORMAT, INVOICE_COLUMNS, STATUS_FITLERS, SETTINGS } from '../constants';
 
@@ -132,7 +133,7 @@ class Invoice extends React.Component {
 					columns={this.columns}
 					dataSource={source}
 					expandRowByClick={true}
-					expandedRowRender={() => (<div>{'Hello World'}</div>)}
+					expandedRowRender={record => (<InvoiceDetails record={record} />)}
 					onExpand={(expanded, record) => console.log(expanded, record) }
 				/>
 			</div>
