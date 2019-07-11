@@ -1,7 +1,12 @@
 import faker from 'faker/locale/de';
+import moment from 'moment';
 import uuid from 'uuid';
 
 const STATUSES = [ 'complete', 'late', 'pending' ];
+
+const generateRandomNumber = (ceil = 3) => Math.floor(Math.random() * ceil) + 1;
+
+const pickRandomIndex = array => array[Math.floor(Math.random()*array.length)];
 
 const getStatus = status => {
 	let statusData = {
@@ -38,10 +43,6 @@ const generateDates = status => {
 	};
 };
 
-const generateRandomNumber = (ceil = 3) => Math.floor(Math.random() * ceil) + 1;
-
-const pickRandomIndex = array => array[Math.floor(Math.random()*array.length)];
-
 const generateAmountBalance = status => {
 	const amount = parseFloat(faker.finance.amount());
 	const balance = status === 'complete' ? 0 : amount;
@@ -49,18 +50,7 @@ const generateAmountBalance = status => {
 	return { amount, balance };
 };
 
-// const generateFakeStatuses = (statusCount = 10) => {
-// 	const fakeStatuses = [];
-//
-// 	while (fakeStatuses.length < statusCount) {
-// 		const randomStatus = pickRandomIndex(STATUSES);
-// 		fakeStatuses.push(randomStatus);
-// 	}
-//
-// 	return fakeStatuses;
-// };
-
-const generateAddres = () => faker.fake("" +
+const generateAddress = () => faker.fake("" +
 	 "{{address.streetAddress}}," +
 	 " {{address.city}}" +
 	 " {{address.country}}," +
@@ -82,42 +72,12 @@ export const sortByCreatedAt = (itemA, itemB) => {
 	return 0;
 };
 
-export const createFakeClient = (status, data) => {
-	let client = {
-		// ...faker.helpers.createCard(),
-		// key: uuid(),
-		// createdBy: faker.name.findName(),
-		// image: faker.image.image(),
-		// ...generateDates(status),
-		// ...generateAmountBalance(status),
-		// notes: faker.lorem.paragraph(),
-		// status: getStatus(status),
-	};
-
-	if (data) {
-		const { address, companyName, email, name, notes, phone } = data;
-
-		client = {
-			...client,
-			address,
-			company: { ...client.company, name: companyName },
-			createdAt: moment(new Date()),
-			email,
-			name,
-			notes,
-			phone,
-		};
-	}
-
-	return client;
-};
-
 const createFakeOrders = item => {
 	const orderCount = generateRandomNumber();
 	const orders = {};
 
 	while (Object.keys(orders).length < orderCount) {
-		const data = createOrderData(item);
+		const data = generateOrderData(item);
 		orders[data.key] = data;
 	}
 
@@ -134,20 +94,21 @@ export const generateAppData = dataCount => {
 			image: faker.image.image(),
 			key: uuid(),
 		};
-		appData.set(data);
+		appData.add(data);
 	}
 
 	return appData;
 };
 
 export const generateInvoiceData = item => {
-	const { company, createdBy } = item;
+	const { createdBy } = item;
+	const statusValue = pickRandomIndex(STATUSES);
 
 	return {
-		...pickedKeys,
-		...generateDates(status),
-		...generateAmountBalance(status),
-		status: pickRandomIndex(STATUSES),
+		...generateDates(statusValue),
+		...generateAmountBalance(statusValue),
+		createdBy,
+		status: getStatus(statusValue),
 	};
 };
 
@@ -156,6 +117,7 @@ export const generateClientData = item => {
 		address,
 		company = {},
 		companyName,
+		createdBy,
 		email,
 		name,
 		notes = faker.lorem.paragraph(),
@@ -164,8 +126,9 @@ export const generateClientData = item => {
 
 	return {
 		address,
-		company: companyName ? { name: companyName } : company,
+		company: companyName ? { bs: faker.company.bs(), name: companyName } : company,
 		createdAt: moment(new Date()),
+		createdBy,
 		email,
 		name,
 		notes,
@@ -180,8 +143,8 @@ export const generateOrderData = item => {
 		createdAt = pickRandomIndex([faker.date.past(), faker.date.recent()]),
 		createdBy = faker.name.findName(),
 		driver = faker.name.findName(),
-		dropOff = generateAddres(),
-		pickUp = generateAddres(),
+		dropOff = generateAddress(),
+		pickUp = generateAddress(),
 		price = parseFloat(faker.finance.amount()),
 	} = item;
 

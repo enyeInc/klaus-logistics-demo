@@ -1,14 +1,14 @@
 import generateDescriptionItems from './generateDescriptionItems';
 import generateFakeData, {
-	createFakeClient,
-	createOrderData,
+	generateClientData,
+	generateOrderData,
 	sortByCreatedAt
 } from './generateFakeData';
 import generateSigninInputs from './generateSigninInputs';
 
 export {
-	createFakeClient,
-	createOrderData,
+	generateClientData,
+	generateOrderData,
 	generateDescriptionItems,
 	generateFakeData,
 	generateSigninInputs,

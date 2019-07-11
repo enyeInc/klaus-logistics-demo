@@ -132,7 +132,7 @@ class Invoice extends React.Component {
 					columns={this.columns}
 					dataSource={source}
 					expandRowByClick={true}
-					expandedRowRender={() =>(<div>{'Hello World'}</div>)}
+					expandedRowRender={() => (<div>{'Hello World'}</div>)}
 					onExpand={(expanded, record) => console.log(expanded, record) }
 				/>
 			</div>
