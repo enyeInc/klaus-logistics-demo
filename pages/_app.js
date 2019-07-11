@@ -25,7 +25,7 @@ class MyApp extends App {
 
 		const state = ctx.store.getState();
 
-		if (!state.app.appData) {
+		if (!state.app.data) {
 			await ctx.store.dispatch(requestAppData());
 		}
 

@@ -1,7 +1,9 @@
 import { generateClientData, generateOrderData } from '../utils';
 import * as TYPES from './actionTypes';
 
-const initialState = {};
+const initialState = {
+	data: null,
+};
 
 export default (state = { ...initialState }, action) => {
 	switch (action.type) {
@@ -39,13 +41,9 @@ export default (state = { ...initialState }, action) => {
 			};
 		}
 		case (TYPES.UPDATE_APP_DATA): {
-			const { clientData = {}, invoiceData = {}, orderData = {} } = action.payload;
-
 			return {
 				...state,
-				clientData,
-				invoiceData,
-				orderData,
+				data: action.payload,
 			};
 		}
 

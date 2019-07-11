@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import app from '../../app';
 import OrderFilterInput from './OrderFilterInput';
 import OrderModal from './OrderModal';
-import { orderDataSelector } from '../../app/selectors';
+import { clientOrderSelector } from '../selectors';
 import { DEFAULT_DATA_FORMAT, INVOICE_COLUMNS, SETTINGS } from '../constants';
 
 const { createNewOrder, toggleOrderApproval } = app.actions;
@@ -191,7 +191,7 @@ Order.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	orderData: orderDataSelector(state),
+	orderData: clientOrderSelector(state),
 });
 
 const mapDispatchToProps = { createNewOrder, toggleOrderApproval };

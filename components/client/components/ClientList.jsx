@@ -4,7 +4,7 @@ import { List } from 'antd';
 import { connect } from 'react-redux';
 
 import ClientListItem from './ClientListItem';
-import { companyDetailsSelector } from '../selectors';
+import { clientDataSelector } from '../selectors';
 import { SETTINGS } from '../constants';
 
 const { LAYOUT, PAGE_SIZE } = SETTINGS;
@@ -30,7 +30,7 @@ ClientList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	clientData: companyDetailsSelector(state),
+	clientData: clientDataSelector(state),
 });
 
 export default connect(mapStateToProps)(ClientList);

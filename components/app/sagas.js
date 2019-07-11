@@ -1,5 +1,6 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 
+import { updateAppData } from './actions';
 import { updateClientData } from '../client/actions';
 import { updateInvoiceData } from '../invoice/actions';
 import { updateOrderData } from '../order/actions';
@@ -14,11 +15,13 @@ import { REQUEST_APP_DATA } from './actionTypes';
 function* getAppData() {
 	try {
 		const {
+			appData = {},
 			clientData = {},
 			invoiceData = {},
 			orderData = {},
 		} = yield generateFakeData(12);
 
+		yield put(updateAppData(appData));
 		yield put(updateClientData(clientData));
 		yield put(updateInvoiceData(invoiceData));
 		yield put(updateOrderData(orderData));

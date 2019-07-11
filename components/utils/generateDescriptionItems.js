@@ -17,7 +17,7 @@ export default data => {
 
 		if (typeof value === 'object') {
 			if (key === 'address') {
-				const { streetA, city, country, zipcode } = value;
+				const { streetA = '', city = '', country = '', zipcode = '' } = value;
 
 				value = `${streetA}, ${city} ${country}, ${zipcode}`;
 			}

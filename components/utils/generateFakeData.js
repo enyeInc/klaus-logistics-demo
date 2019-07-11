@@ -91,7 +91,7 @@ export const generateAppData = dataCount => {
 		const data = {
 			...faker.helpers.createCard(),
 			createdBy: faker.name.findName(),
-			image: faker.image.image(),
+			image: faker.image.business(),
 			key: uuid(),
 		};
 		appData.add(data);
@@ -101,13 +101,15 @@ export const generateAppData = dataCount => {
 };
 
 export const generateInvoiceData = item => {
-	const { createdBy } = item;
+	const { company, createdBy, key } = item;
 	const statusValue = pickRandomIndex(STATUSES);
 
 	return {
 		...generateDates(statusValue),
 		...generateAmountBalance(statusValue),
+		company,
 		createdBy,
+		key,
 		status: getStatus(statusValue),
 	};
 };
@@ -117,22 +119,22 @@ export const generateClientData = item => {
 		address,
 		company = {},
 		companyName,
-		createdBy,
 		email,
 		name,
 		notes = faker.lorem.paragraph(),
 		phone,
+		website,
 	} = item;
 
 	return {
 		address,
 		company: companyName ? { bs: faker.company.bs(), name: companyName } : company,
-		createdAt: moment(new Date()),
-		createdBy,
 		email,
+		image: faker.image.image(),
 		name,
 		notes,
 		phone,
+		website,
 	};
 };
 
@@ -176,8 +178,8 @@ export default (fakeDataCount = 10) => {
 		};
 	});
 
-	// for each item in the app data create a random
 	return {
+		appData,
 		clientData,
 		invoiceData,
 		orderData,
