@@ -1,7 +1,7 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Table, Tag } from 'antd';
+import { Table, Tag, notification } from 'antd';
 import { connect } from 'react-redux';
 
 import FilterInput from './FilterInput';
@@ -61,6 +61,16 @@ class Invoice extends React.Component {
 		this.setState({ filterValue, filteredDataSource, isFitering });
 	}
 
+	getLateInvoices = () => {
+		const { invoiceData } = this.props;
+		const lateInvoices = invoiceData.filter(invoice => invoice.status.value === 'Late');
+
+		this.setState({
+			filteredDataSource: lateInvoices,
+			isFitering: true,
+		});
+	}
+
 	generateColumns() {
 		return INVOICE_COLUMNS.map(column => {
 			const { key } = column;
@@ -114,6 +124,26 @@ class Invoice extends React.Component {
 		});
 	}
 
+	componentDidMount() {
+		const { invoiceData } = this.props;
+		const lateInvoices = invoiceData.filter(invoice => invoice.status.value === 'Late');
+
+		if (lateInvoices.length) {
+			notification.error({
+				description: `There are ${lateInvoices.length} late invoices.
+					Click here to show them.`,
+				duration: 10,
+				message: `Late Invoices`,
+				onClick: this.getLateInvoices,
+				placement: 'topRight',
+			});
+		}
+	}
+
+	componentWillUnMount() {
+		notification.destory();
+	}
+
 	render() {
 		const { invoiceData } = this.props;
 		const { filterColumn, filterValue, filteredDataSource, isFitering } = this.state;
@@ -134,7 +164,6 @@ class Invoice extends React.Component {
 					dataSource={source}
 					expandRowByClick={true}
 					expandedRowRender={record => (<InvoiceDetails record={record} />)}
-					onExpand={(expanded, record) => console.log(expanded, record) }
 				/>
 			</div>
 		);

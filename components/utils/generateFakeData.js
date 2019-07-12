@@ -131,18 +131,22 @@ export const generateClientData = item => {
 		address,
 		company = {},
 		companyName,
+		createdAt = moment().format('YYYY-MM-DD HH:mm:ss'),
 		email,
+		key = uuid(),
 		name,
 		notes = faker.lorem.paragraph(),
 		phone,
-		website,
+		website = faker.internet.domainName(),
 	} = item;
 
 	return {
 		address,
 		company: companyName ? { bs: faker.company.bs(), name: companyName } : company,
+		createdAt,
 		email,
 		image: faker.image.image(),
+		key,
 		name,
 		notes,
 		phone,
@@ -158,12 +162,14 @@ export const generateOrderData = item => {
 		createdBy = faker.name.findName(),
 		driver = faker.name.findName(),
 		dropOff = generateAddress(),
+		key,
 		pickUp = generateAddress(),
 		price = parseFloat(faker.finance.amount()),
 	} = item;
 
 	return {
 		approved,
+		clientId: key,
 		company,
 		createdAt,
 		createdBy,

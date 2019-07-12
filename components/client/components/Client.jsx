@@ -5,22 +5,20 @@ import { connect } from 'react-redux';
 
 import ClientList from './ClientList';
 import ClientModal from './ClientModal';
-import app from '../../app';
+import { createNewClient } from '../actions';
 import { ADD_CLIENT_TEXT } from '../constants';
-
-const { createNewClient } = app.actions;
 
 class Client extends React.Component {
 	state = {
-		isModalOpen: false,
+		isClientModalOpen: false,
 	};
 
 	toggleModal = () => {
-		const { isModalOpen } = this.state;
+		const { isClientModalOpen } = this.state;
 		const { form } = this.formRef.props;
 
 		form.resetFields();
-		this.setState({ isModalOpen: !isModalOpen });
+		this.setState({ isClientModalOpen: !isClientModalOpen });
 	}
 
 	handleCreate = () => {
@@ -28,10 +26,10 @@ class Client extends React.Component {
 		const { createNewClient } = this.props;
 
 		form.validateFields((error, fields) => {
+			console.log(error, fields)
 			if (error) {
 				return error;
 			}
-
 			createNewClient(fields);
 			this.toggleModal();
 		});
@@ -43,7 +41,7 @@ class Client extends React.Component {
 
 	render() {
 		const { clientData } = this.props;
-		const { isModalOpen } = this.state;
+		const { isClientModalOpen } = this.state;
 
 		return (
 			<div className='client-container'>
@@ -56,7 +54,7 @@ class Client extends React.Component {
 				</Button>
 				<ClientList />
 				<ClientModal
-					isVisible={isModalOpen}
+					isVisible={isClientModalOpen}
 					toggleModal={this.toggleModal}
 					onCreate={this.handleCreate}
 					wrappedComponentRef={this.saveFormRef}

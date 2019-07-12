@@ -1,5 +1,5 @@
-import { generateClientData, generateOrderData } from '../utils';
 import * as TYPES from './actionTypes';
+import { generateOrderData } from '../utils';
 
 const initialState = {
 	data: null,
@@ -7,14 +7,6 @@ const initialState = {
 
 export default (state = { ...initialState }, action) => {
 	switch (action.type) {
-		case (TYPES.CREATE_NEW_CLIENT): {
-			const newClient = generateClientData(null, action.payload);
-
-			return {
-				...state,
-				appData: [newClient, ...state.appData],
-			};
-		}
 		case (TYPES.CREATE_NEW_ORDER): {
 			const { orderData } = state;
 			const newOrder = generateOrderData(action.payload);

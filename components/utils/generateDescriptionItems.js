@@ -11,7 +11,7 @@ export default data => {
 	return items.reduce((total, item) => {
 		let [key, value] = item;
 
-		if (['company', 'image'].includes(key)) {
+		if (['createdAt', 'company', 'image', 'key'].includes(key)) {
 			return total;
 		}
 
