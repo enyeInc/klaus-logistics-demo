@@ -1,6 +1,8 @@
 import orderBy from 'lodash.orderby';
 import { createSelector } from 'reselect';
 
+import { clientOrderSelector } from '../order/selectors';
+
 /**
  * Creates an array of client data. The list is sorted by createdAt.
  *
@@ -19,6 +21,24 @@ export const clientDataSelector = createSelector(
 );
 
 /**
+ * Returns a list of invoices by client id. Given the nature of our faked datas,
+ * there is only a max of one invoice per client.
+ *
+ * @function
+ * @param {Object} state - redux store state
+ * @return {Array} a list of client orders
+ * {@link module:app/constants::INITIAL_STATE constants::INITIAL_STATE}).
+ */
+export const clientInvoicesByIdSelector = createSelector(
+	state => state.invoice,
+	(state, id) => id,
+	(orderData, id) => {
+
+		return orderData[id] ? [orderData[id]] : []
+	}
+);
+
+/**
  * Returns a list of orders by client id.
  *
  * @function
@@ -27,11 +47,7 @@ export const clientDataSelector = createSelector(
  * {@link module:app/constants::INITIAL_STATE constants::INITIAL_STATE}).
  */
 export const clientOrdersByIdSelector = createSelector(
-	state => state.orders,
+	clientOrderSelector,
 	(state, id) => id,
-	(orderData, id) => orderBy(
-		Object.values(clientData),
-		'createdAt',
-		['desc']
-	)
+	(orderData, id) => orderData.filter(order => order.clientId === id)
 );

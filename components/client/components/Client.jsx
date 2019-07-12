@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Button, Modal } from 'antd';
+import { Avatar, Button } from 'antd';
 import { connect } from 'react-redux';
 
 import ClientList from './ClientList';
@@ -26,10 +26,10 @@ class Client extends React.Component {
 		const { createNewClient } = this.props;
 
 		form.validateFields((error, fields) => {
-			console.log(error, fields)
 			if (error) {
 				return error;
 			}
+
 			createNewClient(fields);
 			this.toggleModal();
 		});
