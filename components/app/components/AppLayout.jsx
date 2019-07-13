@@ -1,13 +1,14 @@
-import { Breadcrumb, Icon, Layout, LocaleProvider } from 'antd';
 import German from 'antd/lib/locale-provider/de_DE';
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'moment/locale/de';
+import { Avatar, Breadcrumb, Icon, Layout, LocaleProvider } from 'antd';
 
 import Footer from './Footer';
 import Header from './Header';
 import invoice from '../../invoice';
+import logo from '../assets/images/hofmann.png';
 import { components as menuComponents } from '../../menu';
 
 moment.locale('de');
@@ -19,8 +20,8 @@ const { Content, Sider } = Layout;
 const AppLayout = props => (
 	<LocaleProvider locale={German}>
 		<Layout className='app-container'>
-			<Sider collapsible>
-				<div className="logo" />
+			<Sider collapsible className='app-sider'>
+				<Avatar className="logo" src={logo} />
 				<Menu router={props.router} />
 			</Sider>
 			<Layout>
