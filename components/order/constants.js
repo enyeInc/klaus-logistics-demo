@@ -89,7 +89,7 @@ export const INVOICE_COLUMNS = [
 	},
 ];
 
-export const MODAL_TITLE = 'Add New Client';
+export const MODAL_TITLE = 'Add New Orders';
 
 export const SETTINGS = {
 	CENTER: 'center',

@@ -13,7 +13,7 @@ import { clientOrderSelector } from '../order/selectors';
  */
 export const clientDataSelector = createSelector(
 	state => state.client,
-	clientData => orderBy(
+	(clientData, orderData) => orderBy(
 		Object.values(clientData),
 		'createdAt',
 		['desc']
