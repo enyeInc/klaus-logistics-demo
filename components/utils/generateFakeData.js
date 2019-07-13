@@ -155,21 +155,23 @@ export const generateClientData = item => {
 };
 
 export const generateOrderData = item => {
+	const fakeDate = pickRandomIndex([faker.date.past(), faker.date.recent()]);
+
 	const {
 		approved = pickRandomIndex([true, false]),
 		company: { name: company },
-		createdAt = pickRandomIndex([faker.date.past(), faker.date.recent()]),
+		createdAt = moment(fakeDate).format('YYYY-MM-DD HH:mm:ss'),
 		createdBy = faker.name.findName(),
 		driver = faker.name.findName(),
 		dropOff = generateAddress(),
-		key,
+		key: clientId = uuid(),
 		pickUp = generateAddress(),
 		price = parseFloat(faker.finance.amount()),
 	} = item;
 
 	return {
 		approved,
-		clientId: key,
+		clientId,
 		company,
 		createdAt,
 		createdBy,

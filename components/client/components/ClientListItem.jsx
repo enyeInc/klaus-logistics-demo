@@ -28,7 +28,7 @@ class ClientListItem extends React.Component {
 		const { invoices, item, orders } = this.props;
 		const { company, image, notes } = item;
 		const { name, catchPhrase } = company;
-		const hasLateInvoice = invoices.find(invoice => invoice.status.value === 'Late');
+		const hasLateInvoice = invoices.some(invoice => invoice.status.value === 'Late');
 
 		return (
 			<List.Item

@@ -1,3 +1,4 @@
+import orderBy from 'lodash.orderby';
 import { createSelector } from 'reselect';
 
 /**
@@ -10,5 +11,9 @@ import { createSelector } from 'reselect';
  */
 export const clientOrderSelector = createSelector(
 	state => state.order,
-	orderData => Object.values(orderData)
+	orderData => orderBy(
+		Object.values(orderData),
+		'createdAt',
+		['desc']
+	)
 );

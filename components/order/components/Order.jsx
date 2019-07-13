@@ -4,13 +4,12 @@ import React from 'react';
 import { Checkbox, Table, Tag } from 'antd';
 import { connect } from 'react-redux';
 
-import app from '../../app';
 import OrderFilterInput from './OrderFilterInput';
 import OrderModal from './OrderModal';
+import { createNewOrder, toggleOrderApproval } from '../actions';
 import { clientOrderSelector } from '../selectors';
 import { DEFAULT_DATA_FORMAT, INVOICE_COLUMNS, SETTINGS } from '../constants';
 
-const { createNewOrder, toggleOrderApproval } = app.actions;
 const { CENTER, COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
 class Order extends React.Component {
@@ -137,7 +136,7 @@ class Order extends React.Component {
 				...fields,
 				approved: false,
 				company: { name: fields.companyName },
-				createdAt: moment(new Date()),
+				createdAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 			});
 			this.toggleModal();
 		});
