@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Avatar, Descriptions, Icon, List } from 'antd';
+import { Avatar, Badge, Descriptions, Icon, List } from 'antd';
 import { connect } from 'react-redux';
 
 import { clientInvoicesByIdSelector, clientOrdersByIdSelector } from '../selectors';
@@ -28,6 +28,7 @@ class ClientListItem extends React.Component {
 		const { invoices, item, orders } = this.props;
 		const { company, image, notes } = item;
 		const { name, catchPhrase } = company;
+		const hasLateInvoice = invoices.find(invoice => invoice.status.value === 'Late');
 
 		return (
 			<List.Item
@@ -40,13 +41,14 @@ class ClientListItem extends React.Component {
 						text="Orders"
 						type="shopping-cart"
 					/>,
-					<IconText
-						action={this.onIconTextClick}
-						entries={invoices}
-						key="invoices"
-						text="Invoices"
-						type="book"
-					/>,
+					<Badge dot={hasLateInvoice} key="invoices">
+						<IconText
+							action={this.onIconTextClick}
+							entries={invoices}
+							text="Invoices"
+							type="book"
+						/>
+					</Badge>,
 				]}
 			>
 				<List.Item.Meta

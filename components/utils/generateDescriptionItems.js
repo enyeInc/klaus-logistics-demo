@@ -30,14 +30,13 @@ export default data => {
 
 				value = `${streetA}, ${city} ${country}, ${zipcode}`;
 			} else if (key === 'status') {
-				console.log(key, value)
 				value = value.value;
 			}
 		} else if (key === 'website') {
 			value = <a>{value}</a>;
 		} else if (key === 'approved') {
 			value = <Checkbox checked={value} />;
-		} else if (key === 'price' || key === 'amount') {
+		} else if (key === 'price' || key === 'amount' || key === 'balance') {
 			value = `€ ${value}`;
 		}
 

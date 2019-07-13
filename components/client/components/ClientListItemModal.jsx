@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Card, Descriptions, List, Modal } from 'antd';
+import { Descriptions, List, Modal } from 'antd';
 
 import { generateDescriptionItems } from '../../utils';
 import { SETTINGS } from '../constants';
 
 const { LAYOUT } = SETTINGS;
 
-function generateCardItem(item, type) {
+function generateListItem(item, type) {
 	return (
 		<List.Item>
 			<Descriptions
@@ -31,10 +31,12 @@ const ClientListItemModal = props => {
 			visible={isVisible}
 			onOk={() => toggleModal()}
 			onCancel={() => toggleModal()}
+			className='client-list-item-modal'
 		>
 			<List
 				dataSource={data}
-				renderItem={item => generateCardItem(item, type)}
+				grid={{ column: 3, gutter: 16 }}
+				renderItem={item => generateListItem(item, type)}
 			/>
 		</Modal>
 	);

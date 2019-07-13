@@ -32,10 +32,7 @@ export const clientDataSelector = createSelector(
 export const clientInvoicesByIdSelector = createSelector(
 	state => state.invoice,
 	(state, id) => id,
-	(orderData, id) => {
-
-		return orderData[id] ? [orderData[id]] : []
-	}
+	(orderData, id) => orderData[id] ? [orderData[id]] : []
 );
 
 /**
