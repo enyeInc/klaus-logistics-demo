@@ -26,7 +26,7 @@ export const FORM_INPUTS = [
 		iconType: 'mail',
 		placeholder: 'Contact Email',
 		rules: [
-			// { message: 'The input is not valid E-mail!', type: 'email' },
+			{ message: 'The input is not valid E-mail!', type: 'email' },
 			{ message: 'You have to input a contact email', required: true },
 		],
 	},

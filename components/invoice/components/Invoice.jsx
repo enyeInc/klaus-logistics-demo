@@ -11,7 +11,6 @@ import { DEFAULT_DATA_FORMAT, INVOICE_COLUMNS, STATUS_FITLERS, SETTINGS } from '
 
 const { CENTER, COLUMN_DEFAULT_WIDTH } = SETTINGS;
 
-// TODO: Add Ability create new orders
 class Invoice extends React.Component {
 	state = {
 		filterColumn: 'company',
